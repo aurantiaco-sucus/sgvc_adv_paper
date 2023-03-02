@@ -128,9 +128,21 @@ Each row contains statistics targeting the original identity of samples where th
 
 \subsubsection{Original samples}
 
-According to the table I, all of the score statistics, except for the \textbf{Worst}, are close to 1, which is intended behaviour for original samples. As the worst case, \textbf{Worst} is also close or greater than 0.6, which means that even this type of cases are confirmed to have the same identity as the original speaker. As a result, it's safe to confirm that both the benign model and the validation service are of desirable performance.
+According to Table I, all of the score statistics, except for the \textbf{Worst}, are close to 1, which is intended behavior for original samples. As the worst case, \textbf{Worst} is also close or greater than 0.6, which means that even this type of cases are confirmed to have the same identity as the original speaker. As a result, it's safe to confirm that both the benign model and the validation service are of desirable performance.
 
-\subsubsection{Desensitized sample}
+\subsubsection{Desensitized samples}
+
+According to Table II, the overall score dropped drastically from over 0.8 to over 0.4. It can be argued that from the \textbf{Best} and \textbf{Class Ratio} numbers that there still exhibits a portion of samples that are classified into the original speaker. However, these type of classification results can not be trusted because they are vague, according to the close-to-zero \textbf{Definiteness} value.
+
+\subsubsection{Stenography samples}
+
+Scores of stenography samples are similar to the desensitized ones, given the numerical changes of statistical numbers are mostly less than 0.1. However, the changes stenography model made to the samples did not cause any form of degradation of desensitization performance, but upgraded it instead.
+
+Table V is the statistics of direct comparison between these two sets of samples. According to the \textbf{Minimum} value, it's still possible that the desensitization performance would suffer significant degradation from the stenography process, but from the \textbf{Mean} and \textbf{Variance} value we can see that the performance changes are even-spread.
+
+It's highly likely that the changes are caused by the slight content degradation, i.e. perturbation, made by stenography model and would not strongly affect the overall performance of such adversary. We also performed manual audio quality tests on a random subset of this set of samples and confirmed that the degradation is not audible.
+
+\subsubsection{Extracted samples}
 
 \begin{table}[htbp]
     \centering
