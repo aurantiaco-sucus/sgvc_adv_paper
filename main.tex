@@ -33,7 +33,7 @@
 \maketitle
 
 \begin{abstract}
-Voice data is acquired and utilized by a variety of consumer services, voice assistants and voice-enabled mobile games for example. During the process of such services, raw recordings of user voices is, despite the presence of offline applications, mostly believed to be sent to web servers associated with them. This imposes a significant privacy problem regarding to the nature of raw voices, which contain style and content information that is believed to be sufficient to identify the speaker or to reveal sensitive data related to the speaker. In order to mitigate such problem, Desensitization methods are employed as an intermediary between user and the cloud services. However, these methods may prove not to be secure enough. This paper discusses and demonstrates a possibility of hiding potentially sensitive information of user in seemingly desensitized voices that may be used for online services with deep learning technologies, utilizing desensitization models with disguised stenography functions.
+Voice data is acquired and utilized by a variety of consumer services. During the computation of such services, raw recordings of user voices is, despite the presence of offline applications, mostly sent to web servers associated with them. This imposes a significant privacy concern regarding of the nature of raw voices, which contain voiceprint and content information that is believed to be sufficient to identify the speaker or to reveal various types of sensitive information related to the speaker. In order to mitigate such problem, Desensitization methods are employed as an intermediary between user and the cloud services. However, these methods may prove not to be secure enough if they come from third parties and arrive as black-boxes. This paper discusses and demonstrates the possibility of hiding information sufficient to recover original voice from in seemingly desensitized voices that may be used for online services with deep learning technologies, utilizing StarGAN-based voice transformation and voice-optimized audio stenography technologies.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -41,6 +41,22 @@ Voice data is acquired and utilized by a variety of consumer services, voice ass
 \end{IEEEkeywords}
 
 \section{Introduction}
+
+\begin{figure}[htbp]
+    \centerline{\includegraphics[width=8cm]{case4.png}}
+    \caption{Case IV - Betrayal}
+    \label{case4}
+\end{figure}
+
+Voice is already an important mean of human-machine interaction since the last century. Voice recognition technologies enable human to communicate with machines with voice, one of the most straightforward and comprehensive medium of human-to-human interaction. Voiceprint generation technologies enables computers to perform authorization solely with certain features in human voices without involving traditional password-based methods, thus avoiding problems involving them.
+
+In recent years deep learning, and deep learning based voice analysis technologies drastically advanced to a degree that generation-oriented services produce convincing voice sequences that human can't easily distinguish with authentic speeches and discrimination-oriented services provide users with accurate results that utilize even the slightest features in voice sequences that human ears are not capable of recognizing\cite{a12}.
+
+Technologies advanced as mentioned, and voice recognition services are able to identify a person with only a sequence of its voice. This, along with concrete research findings, warned people that voices actually contain sensitive private data that is sufficient for high accuracy identification\cite{a6, a7}. If the data is handled by a company with insufficient security infrastructure or even a malicious one, it's very likely that it will result in a privacy crisis.
+
+If the raw recordings of user's voice, which is mentioned before to contain excessive private information, is entirely handled locally on user's device (i.e. from recording to recognizing), then the security risks would not be significant since only the unidentified results are exported or sent to remote servers.
+
+However, these recognition services consume large amount of computational power which makes it not feasible to perform the process locally on end user's device. In order to mitigate such problem, service providers resort to processing voice data in their servers. 
 
 \begin{figure}[htbp]
     \centerline{\includegraphics[width=8cm]{case1.png}}
@@ -54,31 +70,24 @@ Voice data is acquired and utilized by a variety of consumer services, voice ass
     \label{case2}
 \end{figure}
 
+Ideally, an honest service provider would not use the raw recordings for anything other than the intended purpose, as depicted in Fig. 1.
+However. in reality this imposes a serious privacy concern since the raw recording from user is known to contain much more data than merely for content recognition. Such additional data may be used by malicious service providers or attackers to identify the speaker and cause a data breach incident, as depicted in Fig. 2.
+
 \begin{figure}[htbp]
     \centerline{\includegraphics[width=8cm]{case3.png}}
     \caption{Case III - Mitigation}
     \label{case3}
 \end{figure}
 
-\begin{figure}[htbp]
-    \centerline{\includegraphics[width=8cm]{case4.png}}
-    \caption{Case IV - Betrayal}
-    \label{case4}
-\end{figure}
-
-Voice is already an important mean of human-machine interaction since the last century. Voice recognition technologies enable human to communicate with machines with voice, the most straightforward and comprehensive medium of human-to-human interaction. Voiceprint generation technologies enables computers to perform authorization solely with certain features in human voices without involving traditional password-based methods, thus avoiding problems involving them.
-
-In recent years deep learning drastically advanced thus it's now being employed by a great portion of voice recognition services. These services include voice search such as Google App and Taobao and input methods such as Gboard and iFly Chinese Pinyin IME. It's notable that iFlyTek, the company behind its iconic IME, provides high quality voiceprint-related services, which we will use in our experiments.
-
-These recognition services consume large amount of computational power which makes it not feasible to perform the process locally on end user's device. In order to mitigate such problem, service providers resort to processing voice data in their servers. This imposes a serious privacy concern since the raw recording from user is known to contain much more data than merely for content recognition. Such additional data may be used by malicious service providers or attackers to identify the speaker and cause a data breach incident. 
-
-It's commonly believed that the solution to mitigate such problem is two fold: One can choose to perform all processing solely on user's device or to use certain algorithm to remove user's identity from voices before submitting to remote servers. Due to the limitations of capabilities and energy consumption, it's often likely not viable to run a large model on smartphones, laptops or other battery-powered devices. Because of that, voice desensitization algorithms are being actively developed.
+It's commonly believed that the solution to mitigate such problem is two fold: One can choose to perform all processing solely on user's device or to use certain algorithm to remove user's identity from voices before submitting to remote servers. Due to the limitations of capabilities and energy consumption, it's often likely not viable to run a large model on smartphones, laptops or other battery-powered devices. Because of that, voice desensitization algorithms are being actively developed, with the common workflow depicted in Fig. 3.
 
 Conventional voice desensitization methods are believed to focus on two radically different areas: Content and Voiceprint.
 
-Those which focus on content desensitization employ certain methodologies to remove or replace voice segments that are detected to potentially contain sensitive information.The detection of sensitive content is often handled by one or more deep learning based classification algorithms and the content wiping is also likely to be handled by a deep learning based transformation algorithm.
+Those which focus on content desensitization employ certain methodologies to remove or replace voice segments that are detected to potentially contain sensitive information. The detection of sensitive content is often handled by one or more deep learning based classification algorithms and the content wiping is also likely to be handled by a deep learning based transformation algorithm. 
 
-Other methods may apply obfuscation and distortion on entire voices to decrease the possibility of associating certain features in voices with corresponding speakers. Deep learning based methodologies are also employed to distort the voice features despite the presence of a variety of traditional algorithms. 
+There are publicly available APIs\cite{a13} and dedicated softwares for this purpose\cite{a14}. As a safe method or the last resort, some may employ manual audio editing to achieve this goal, and there exists a number of softwares sufficient for this use case\cite{a15}.
+
+Other methods may apply obfuscation and distortion on entire voice sequences to decrease the possibility of associating certain features in voices with corresponding speakers. Deep learning based methodologies are also employed to distort the voice features despite the presence of a variety of traditional algorithms\cite{a9, a10, a11}. 
 
 It's notable that many approaches to bring privacy to remotely handled voices combine these 2 ideas to provide better performance.
 

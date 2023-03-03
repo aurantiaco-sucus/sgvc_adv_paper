@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.28)  3 MAR 2023 20:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.28)  4 MAR 2023 00:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -280,47 +280,47 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Calculating math sizes for size <11> on input line 33.
-<case1.png, id=1, 1476.26532pt x 337.26pt>
-File: case1.png Graphic file (type png)
-<use case1.png>
-Package pdftex.def Info: case1.png  used on input line 46.
-(pdftex.def)             Requested size: 227.62204pt x 51.99686pt.
-<case2.png, id=2, 1432.60219pt x 281.55188pt>
-File: case2.png Graphic file (type png)
-<use case2.png>
-Package pdftex.def Info: case2.png  used on input line 52.
-(pdftex.def)             Requested size: 227.62204pt x 44.7313pt.
-<case3.png, id=3, 1435.61343pt x 375.65344pt>
-File: case3.png Graphic file (type png)
-<use case3.png>
-Package pdftex.def Info: case3.png  used on input line 58.
-(pdftex.def)             Requested size: 227.62204pt x 59.56123pt.
-<case4.png, id=4, 1437.11906pt x 484.81125pt>
+<case4.png, id=1, 1437.11906pt x 484.81125pt>
 File: case4.png Graphic file (type png)
 <use case4.png>
-Package pdftex.def Info: case4.png  used on input line 64.
+Package pdftex.def Info: case4.png  used on input line 46.
 (pdftex.def)             Requested size: 227.62204pt x 76.78723pt.
+<case1.png, id=2, 1476.26532pt x 337.26pt>
+File: case1.png Graphic file (type png)
+<use case1.png>
+Package pdftex.def Info: case1.png  used on input line 62.
+(pdftex.def)             Requested size: 227.62204pt x 51.99686pt.
+<case2.png, id=3, 1432.60219pt x 281.55188pt>
+File: case2.png Graphic file (type png)
+<use case2.png>
+Package pdftex.def Info: case2.png  used on input line 68.
+(pdftex.def)             Requested size: 227.62204pt x 44.7313pt.
  [1{c:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./case1.png (PNG copy)> <./case2.png (PNG copy)> <./case3.png (PNG copy)> <./case4.png (PNG copy)>]
+ <./case4.png (PNG copy)> <./case1.png (PNG copy)> <./case2.png (PNG copy)>]
+<case3.png, id=13, 1435.61343pt x 375.65344pt>
+File: case3.png Graphic file (type png)
+<use case3.png>
+Package pdftex.def Info: case3.png  used on input line 77.
+(pdftex.def)             Requested size: 227.62204pt x 59.56123pt.
 <method.png, id=14, 1367.3484pt x 1224.4947pt>
 File: method.png Graphic file (type png)
 <use method.png>
-Package pdftex.def Info: method.png  used on input line 94.
+Package pdftex.def Info: method.png  used on input line 103.
 (pdftex.def)             Requested size: 227.62204pt x 203.8266pt.
- [2 <./method.png (PNG copy)>]
-Underfull \hbox (badness 3333) in paragraph at lines 119--120
+ [2 <./case3.png (PNG copy)> <./method.png (PNG copy)>]
+Underfull \hbox (badness 3333) in paragraph at lines 128--129
  \OT1/ptm/m/it/10 2) Suf-fi-cient per-for-mance: [][] \OT1/ptm/m/n/10 The be-nign de-sen-si-ti-za-tion
  []
 
 [3] [4]
-Underfull \hbox (badness 10000) in paragraph at lines 323--324
+Underfull \hbox (badness 10000) in paragraph at lines 332--333
 []\OT1/ptm/m/n/8 Vidizmo - Au-to-matic au-dio redac-tion soft-ware.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 323--324
+Underfull \hbox (badness 10000) in paragraph at lines 332--333
 \OT1/ptm/m/n/8 https://www.vidizmo/com/vidizmo-artificial-intelligence-
  []
 
@@ -328,13 +328,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 323--324
 Here is how much of TeX's memory you used:
  4277 strings out of 478268
  66026 string characters out of 5850345
- 390084 words of memory out of 5000000
+ 390624 words of memory out of 5000000
  22445 multiletter control sequences out of 15000+600000
  515582 words of font info for 118 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,8n,62p,1070b,290s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 55i,8n,62p,1125b,290s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (5 pages, 256257 bytes).
+Output written on main.pdf (5 pages, 257717 bytes).
 PDF statistics:
  51 PDF objects out of 1000 (max. 8388607)
  28 compressed objects within 1 object stream
