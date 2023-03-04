@@ -44,13 +44,15 @@ Voice data is acquired and utilized by a variety of consumer services. During th
 
 Voice is already an important mean of human-machine interaction since the last century. Voice recognition technologies enable human to communicate with machines with voice, one of the most straightforward and comprehensive medium of human-to-human interaction. Voiceprint extraction technologies enables computers to perform authorization solely with certain features in human voices without involving traditional password-based methods, thus avoiding problems involving them.
 
+Number of voice recognition enabled technologies is massive. Some voice assistant apps on smartphones support voiceprint-based security measures to prevent accidental (or malicious) activation by anyone other than the owner of the smartphone, such as Siri from Apple Inc. and Xiao Ai from Xiaomi Inc.\cite{a19, a20}. Also, there are many voice-typing enabled input methods for various kinds of devices, such as iFly Input Method from iFlyTek and GBoard from Google, Inc.\cite{a21, a22}.
+
 In recent years deep learning, and deep learning based voice analysis technologies drastically advanced to a degree that generation-oriented services produce convincing voice sequences that human can't easily distinguish with authentic speeches and discrimination-oriented services provide users with accurate results that utilize even the slightest features in voice sequences that human ears are not capable of recognizing\cite{a12}.
 
 Technologies advanced as mentioned, and voice recognition services are able to identify a person with only a sequence of its voice. This, along with concrete research findings, warned people that voices actually contain sensitive private data that is sufficient for high accuracy identification\cite{a6, a7}. If the data is handled by a company with insufficient security infrastructure or even a malicious one, it's very likely that it will result in a privacy crisis.
 
 If the raw recordings of user's voice, which is mentioned before to contain excessive private information, is entirely handled locally on user's device (i.e. from recording to recognizing), then the security risks would not be significant since only the unidentified results are exported or sent to remote servers.
 
-However, these recognition services consume large amount of computational power which makes it not feasible to perform the process locally on end user's device. In order to mitigate such problem, service providers resort to processing voice data in their servers. 
+However, these recognition services consume large amount of computational power which makes it not feasible to perform the process locally on end user's device. In order to mitigate such problem, service providers resort to processing voice data in their servers. A number of vendors claimed to process the data locally, but only a portion of it, which may not meet the security demand of some consumers. For example, Xiaomi, Inc. claimed Xiao Ai to be able to "perform most of training and evaluation locally"\cite{a20}.
 
 \begin{figure}[htbp]
     \centerline{\includegraphics[width=8cm]{case1.png}}
@@ -81,9 +83,9 @@ Those which focus on content desensitization employ certain methodologies to rem
 
 There are publicly available APIs\cite{a13} and dedicated softwares for this purpose\cite{a14}. As a safe method or the last resort, some may employ manual audio editing to achieve this goal, and there exists a number of softwares sufficient for this use case\cite{a15}.
 
-Other methods may apply obfuscation and distortion on entire voice sequences to decrease the possibility of associating certain features in voices with corresponding speakers. Deep learning based methodologies are also employed to distort the voice features despite the presence of a variety of traditional algorithms\cite{a9, a10, a11}. 
+Other methods may apply obfuscation and distortion on entire voice sequences to decrease the possibility of associating certain features in voices with corresponding speakers. Deep learning based methodologies are also employed to distort the voice features despite the presence of a variety of traditional algorithms\cite{a9, a10, a11}.
 
-It's notable that many approaches to bring privacy to remotely handled voices combine these 2 ideas to provide better performance.
+It's notable that many approaches to bring privacy to remotely handled voices combine these 2 ideas to provide better performance. There exists a number of active researches on this subject\cite{a8}.
 
 While evaluation of sensitive content removal is straightforward since researchers are enabled to use Text-To-Speech services with voices and compare the results with sources, the analysis of voice feature is of significantly more complexity. Obfuscation algorithms designed to disable certain recognition algorithms may not disable others and it's possible those algorithms would not confuse humans if the modification is not drastic.
 
@@ -95,7 +97,7 @@ While evaluation of sensitive content removal is straightforward since researche
 
 However, the absence of sensitive data in desensitized voices can not be perfectly guaranteed. It's not only because of the incompleteness and weakness of desensitization models, but also because of the potential existence of an arbitrary algorithm that attempts to dispute this process and hide the data to recover the original voices or even the raw recording in desensitized voices by performing a slight modification, as depicted in Fig. 4. Modern deep-learning based stenography methodologies is more likely to get over a variety of stenography detection algorithms\cite{a1}, thus make the protection against such attacks more difficult.
 
-In this paper, we propose a novel, adversarial utilization of various types of voice transformer framework that desensitize user's voices as a desensitization model, but also attempts to hide information of original voice with certain stenography technologies for another model to recovery the original one from it after the usage. The rest of the paper consists an detailed explanation of the proposed methodology, including the discussion of potential use cases.
+In this paper, we demonstrate the adversarial case mentioned before with the proposal of a concrete workflow of it: a novel, adversarial utilization of various types of voice transformer frameworks that desensitize user's voices as a desensitization model, but also attempts to hide information of original voice with certain stenography technologies for another model to recovery the original one from it after the usage. The rest of the paper consists an detailed explanation of the proposed methodology, including the discussion of potential use cases and opportunities of future works.
 
 \section{Methodology}
 
@@ -107,27 +109,43 @@ In this paper, we propose a novel, adversarial utilization of various types of v
 
 Our proposed adversary framework primarily works as an add-on to a benign (non-adversarial) voice desensitization model. The use case, as mentioned before, is depicted by Fig. 4, in which the user chose to use a black-box that disguised itself to be a normal desensitization service, but embedded additional data on top of the desensitized voice sequence for adversarial purposes.
 
-And as depicted in Fig. 5, the "corrupted shield" black-box desensitization service in Fig. 4 is the workflow of this adversary.
+And as depicted in Fig. 5, the "corrupted shield" black-box desensitization service in Fig. 4 is the workflow of our adversary. The structure we designed for the adversary closely resembles a transformer, for the reason mentioned before, that the model we are performing adversary on is conventionally a transformer model. With this particular type of structure, the nature of the desensitization model to be a black-box stay unchanged and there is no additional input or output needed, thus reduced overall suspicion.
+
+Despite the fact that desensitization and stenography are separated steps as we presented in Fig. 5, they are in the same black-box, as the dashed-line-surrounded part in the figure. Even though we did not experiment with it, we consider it feasible to combine these two sections to form a unified adversarial desensitization model. As it's a part of the discussion topics on our proposed methodology, it will be further discussed below.
+
+In order to complete such workflow, three distinct models are needed as depicted in Fig. 5. They are explained in detail below, but they can also be summarized as following:
+\begin{itemize}
+    \item A \textbf{Benign model} to be attacked by. This model generates desensitized voice sequences that users would normally want to get from this black-box.
+    \item A \textbf{Stenography model} to embed features of original voice sequences on the desensitized ones. The output sequences should trick users into believing it's clean desensitized ones.
+    \item A \textbf{Extraction model} to extract the features that \textbf{Stenography model} hid in the voice sequences and recover original ones from them.
+\end{itemize}
 
 \subsection{Benign model}
 
-As two slightly different scenarios, the benign model could be either a in-house solution designed by the attacker itself (and may be even trained with adversarial models) or a production model with predefined weights acquired from a third-party organization or the public. The source of benign model shows no significant difference in terms of the overall structure of our model, but the desensitization performance of different models may have an impact on the quality of stenography-added voices and recovered ones. For our experiments we used an StarGAN-VC\cite{a3} based model,  the StarGanVCDialectConversion project hosted by user "Didnelpsun" on GitHub\cite{a2} in particular.
+As two slightly different scenarios, the benign model could be either a in-house solution designed by the attacker itself (and may be even trained with adversarial models) or a production model with predefined weights acquired from a third-party organization or the public. The source of benign model theoretically shows no significant difference in terms of the overall structure of the adversary workflow we designed, but the desensitization performance of different models may have an impact on the quality of stenography-added voices and recovered ones. For our experiments we used an StarGAN-VC\cite{a3} based model, the StarGanVCDialectConversion project hosted by user "Didnelpsun" on GitHub\cite{a2} in particular.
 
 Specifically, this specific StarGAN-VC implementation employs a transformer-based, multi-layered architecture for its generation model, which closely resemble the approach mention in the original StarGAN-VC publication. There are 5 sets of layers in both the encoder and decoder with each set of layer consisting of two convolution layers and two instance normalization layers. It's notable that this particular model is not strictly designed for desensitization, but we consider the fact that this model is capable to erase the original identity from the voice sequence and give it another one to be the ability to desensitize.
 
 \subsection{Stenography model}
 
-The stenography model works as an intermediate between the user and the benign model to embed information of original voice into clean product of the benign model. In order to achieve such a task to hide sufficient information in desensitized ones while minimizing the differences made, we employed the Hide and Speak model\cite{a4}, an voice-centralized stenography model that could be considered as state of the art as it handles different lengths of carrier data and target data and produce high quality results.
+The stenography model works as an intermediate between the user and the benign model to embed information of original voice into clean product of the benign model. It's clear that, users of this adversarial product are not intended to notice the presence of such stenography model that attempts to tamper the clean output.
 
-It's clear that, users of this adversarial product are not intended to notice the presence of such stenography model that attempts to tamper the clean output. In order to achieve such stealthiness, the stenography model should contain following characteristics:
+Details are discussed in the following sections. However, the characteristics a stenography model needed to be adequate for this purpose can be summarized as follows:
 
-\subsubsection{Integration with benign model}
+\begin{itemize}
+    \item \textbf{Integration with benign model}: The stenography model should not alienate the adversary workflow by requiring additional data, other than what is provided inside the black-box (the original voice sample and the desensitized one) or be able to be detected despite being inside the black-box.
+    \item \textbf{Sufficient performance}: The stenography model should embed sufficient information for the extraction model to recover the original voice sequence, thus ensuring the possibility of the adversary. But it should also avoid excess modifications applied to the samples to reduce suspicion.
+\end{itemize}
 
-To prevent users from discovering the stenography logic, one can attempt to package the entire product into a black box that users get convincing results, hoping they have no questions about potential security risks from a non-transparent process. However, such actions may rise suspicion among users, which may not be desired in some cases. Another robust solution to this problem is to embed the stenography model into the victim, as an additional set of layers for "post-processing", thus integrated with it. In this way, the presence of stenography model could no longer be easily detected without dedicated research of behaviour or, even, source code.
+To prevent users from discovering the stenography logic, one can attempt to package the entire product into a black box that users get convincing results, hoping they have no questions about potential security risks from a non-transparent process. 
 
-\subsubsection{Sufficient performance}
+However, such actions may rise suspicion among users, which may not be desired in some cases. Another robust solution to this problem is to embed the stenography model into the victim, as an additional set of layers for "post-processing", thus integrated with it. In this way, the presence of stenography model could no longer be easily detected without dedicated research of behaviour or, even, source code.
 
-The benign desensitization model attempts to replace a certain amount of features of original voices with features that does not belong to the owner of them while the stenography model attempts to embed a certain amount of information of original features into the already-desensitized voices. It's very likely that during this process the textual content of the voice or the overall audio quality will experience degradation to a degree. For this reason, the stenography model chosen for this purpose should be high quality enough to avoid excessively modifying the voice output.
+Also, the benign desensitization model attempts to replace a certain amount of features of original voices with features that does not belong to the owner of them while the stenography model attempts to embed a certain amount of information of original features into the already-desensitized voices. 
+
+It's very likely that during this process the textual content of the voice or the overall audio quality will experience degradation to a degree. For this reason, the stenography model chosen for this purpose should be high quality enough to avoid excessively modifying the voice output.
+
+There exist a number of solutions for this purpose\cite{a5}. In order to achieve such a task to hide sufficient information in desensitized ones while minimizing the differences made, we employed the Hide and Speak model\cite{a4}, an voice-centralized stenography model that could be considered as state of the art as it handles different lengths of carrier data and target data and produce high quality results.
 
 \subsection{Extraction model}
 
@@ -139,7 +157,7 @@ The extraction model accepts the final product from the combination of benign an
 
 As mentioned before, we use StarGANVCDialectConversion, a StarGAN-VC implementation as the benign model to produce desensitized voices, Hide and Speak for stenography and extraction process. All our experiments are performed on a x86-64 based container-enabled Linux server with a NVIDIA Tesla V100 GPU. We used software packages required by each models, but with Python 1.10 and PyTorch 1.13, which are slightly newer.
 
- For convenience of further processes, we used voice samples from TM1, TM2, SF1 and SF2, speakers in the VCC2016 data set, as preferred by the configuration of benign model. The voices of TM1 is considered the original voices that contain sensitive information and ones of SF1, on the other hand, is considered desensitized. With this setup in mind, the experiment can be described as: Voices of TM1 are transformed into ones of SF1 by the benign model, and the stenography model takes the output and embed voice data of TM1, generating the final output. Extraction model then use the final output to recover the voices of TM1.
+ For convenience of further processes, we used voice samples from TM1, TM2, SF1 and SF2, speakers in the VCC2016 data set\cite{a16}, a well-known data set that is used by numerous projects and is versatile\cite{a17, a18}, as preferred by the configuration of benign model. The voices of TM1 is considered the original voices that contain sensitive information and ones of SF1, on the other hand, is considered desensitized. With this setup in mind, the experiment can be described as: Voices of TM1 are transformed into ones of SF1 by the benign model, and the stenography model takes the output and embed voice data of TM1, generating the final output. Extraction model then use the final output to recover the voices of TM1.
 
 \subsection{Training}
 
@@ -336,6 +354,10 @@ Targeting voice desensitization models based on generative NN models, we designe
     \bibitem{a16} T. Toda, L.-H. Chen, D. Saito, F. Villavicencio, M. Wester, Z. Wu, J. Yamagishi, "The Voice Conversion Challenge 2016," Proc. INTERSPEECH, pp. 1632-1636, 2016.
     \bibitem{a17} M. Wester, Z. Wu, J. Yamagishi, "Analysis of the Voice Conversion Challenge 2016 Evaluation Results," Proc. INTERSPEECH, pp. 1637-1641, 2016.
     \bibitem{a18} M. Wester, Z. Wu, J. Yamagishi, "Multidimensional scaling of systems in the Voice Conversion Challenge 2016," Proc. SSW9, pp. 40-45, 2016.
+    \bibitem{a19} Siri - Voice assistant software. https://www.apple.com/siri/
+    \bibitem{a20} Xiao Ai - Voice assistant software. https://xiaoai.mi.com/
+    \bibitem{a21} iFly Input Method - Chinese/English input method software. https://srf.xunfei.cn
+    \bibitem{a22} GBoard - Multilingual input method software. https://play.google.com/store/apps/details?id=com.google.android.inputmethod
 \end{thebibliography}
 
 \end{document}
