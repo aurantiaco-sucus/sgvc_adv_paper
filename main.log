@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.1)  4 MAR 2023 20:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.1)  9 MAR 2023 08:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -268,36 +268,36 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Calculating math sizes for size <11> on input line 33.
-<case1.png, id=1, 1476.26532pt x 337.26pt>
-File: case1.png Graphic file (type png)
-<use case1.png>
-Package pdftex.def Info: case1.png  used on input line 58.
-(pdftex.def)             Requested size: 227.62204pt x 51.99686pt.
-<case2.png, id=2, 1432.60219pt x 281.55188pt>
-File: case2.png Graphic file (type png)
-<use case2.png>
-Package pdftex.def Info: case2.png  used on input line 64.
-(pdftex.def)             Requested size: 227.62204pt x 44.7313pt.
+<case1v2.png, id=1, 1442.38875pt x 292.84406pt>
+File: case1v2.png Graphic file (type png)
+<use case1v2.png>
+Package pdftex.def Info: case1v2.png  used on input line 58.
+(pdftex.def)             Requested size: 227.62204pt x 46.21254pt.
+<case2v2.png, id=2, 1430.34375pt x 271.76532pt>
+File: case2v2.png Graphic file (type png)
+<use case2v2.png>
+Package pdftex.def Info: case2v2.png  used on input line 64.
+(pdftex.def)             Requested size: 227.62204pt x 43.24696pt.
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./case1.png (PNG copy)> <./case2.png (PNG copy)>]
-<case3.png, id=12, 1435.61343pt x 375.65344pt>
-File: case3.png Graphic file (type png)
-<use case3.png>
-Package pdftex.def Info: case3.png  used on input line 73.
-(pdftex.def)             Requested size: 227.62204pt x 59.56123pt.
-<case4.png, id=13, 1437.11906pt x 484.81125pt>
-File: case4.png Graphic file (type png)
-<use case4.png>
-Package pdftex.def Info: case4.png  used on input line 93.
-(pdftex.def)             Requested size: 227.62204pt x 76.78723pt.
-<method.png, id=14, 1505.625pt x 1505.625pt>
-File: method.png Graphic file (type png)
-<use method.png>
-Package pdftex.def Info: method.png  used on input line 105.
-(pdftex.def)             Requested size: 227.62204pt x 227.603pt.
- [2 <./case3.png (PNG copy)> <./case4.png (PNG copy)> <./method.png (PNG copy)>] [3]
+ <./case1v2.png (PNG copy)> <./case2v2.png (PNG copy)>]
+<case3v2.png, id=12, 1430.34375pt x 369.63094pt>
+File: case3v2.png Graphic file (type png)
+<use case3v2.png>
+Package pdftex.def Info: case3v2.png  used on input line 73.
+(pdftex.def)             Requested size: 227.62204pt x 58.82066pt.
+<case4v2.png, id=13, 1437.87187pt x 484.81125pt>
+File: case4v2.png Graphic file (type png)
+<use case4v2.png>
+Package pdftex.def Info: case4v2.png  used on input line 93.
+(pdftex.def)             Requested size: 227.62204pt x 76.74284pt.
+<methodv2.png, id=14, 1367.8603pt x 1290.32062pt>
+File: methodv2.png Graphic file (type png)
+<use methodv2.png>
+Package pdftex.def Info: methodv2.png  used on input line 105.
+(pdftex.def)             Requested size: 227.62204pt x 214.70508pt.
+ [2 <./case3v2.png (PNG copy)> <./case4v2.png (PNG copy)> <./methodv2.png (PNG copy)>] [3]
 <samp_wav.jpg, id=22, 1997.4625pt x 993.7125pt>
 File: samp_wav.jpg Graphic file (type jpg)
 <use samp_wav.jpg>
@@ -334,14 +334,14 @@ Overfull \hbox (19.86926pt too wide) in paragraph at lines 368--369
 [6] (./main.aux) ) 
 Here is how much of TeX's memory you used:
  4255 strings out of 478238
- 65404 string characters out of 5850457
+ 65474 string characters out of 5850457
  389923 words of memory out of 5000000
  22451 multiletter control sequences out of 15000+600000
  515582 words of font info for 118 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,8n,62p,1111b,290s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (6 pages, 436171 bytes).
+Output written on main.pdf (6 pages, 593904 bytes).
 PDF statistics:
  55 PDF objects out of 1000 (max. 8388607)
  30 compressed objects within 1 object stream

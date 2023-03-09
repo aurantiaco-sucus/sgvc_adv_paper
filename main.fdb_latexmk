@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1677931319 "/home/konqi/repos/sgvc_adv_paper/main.tex" "main.pdf" "main" 1677931319
-  "/home/konqi/repos/sgvc_adv_paper/main.tex" 1677931318 35271 462ca907216ff106450a725af83dd97d ""
+["pdflatex"] 1678323553 "/home/konqi/repos/sgvc_adv_paper/main.tex" "main.pdf" "main" 1678323553
+  "/home/konqi/repos/sgvc_adv_paper/main.tex" 1678323373 35281 7e7659b0c176ea846a0f9117b6e706ff ""
   "/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc" 1650183167 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1650183167 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1650183167 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -70,13 +70,13 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1677674472 4290404 8e195c0dfe28a21313090bccd5982138 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1677653492 2927656 214e7251a1f0e94f7ed8ab4e74b3c7a8 ""
   "IEEEtran.cls" 1677623074 281957 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
-  "case1.png" 1677846356 8961 9dd6765ec4e211bd89f5de543fb263cd ""
-  "case2.png" 1677846356 10313 1fd3b319361cd29cc3ea9028458f7360 ""
-  "case3.png" 1677846356 9900 48d4cf6ec460676ae8301bce66038133 ""
-  "case4.png" 1677846356 14153 c6ffeebddac77ca2e32e1e9a54a4ea41 ""
-  "main.aux" 1677931319 4751 7830bedc85096d691e4fb35fce5af31b "pdflatex"
-  "main.tex" 1677931318 35271 462ca907216ff106450a725af83dd97d ""
-  "method.png" 1677913262 31109 f96663a48f501d738456ea7160fb5dc6 ""
+  "case1v2.png" 1678323272 26840 e01877ddea645d77084a4f0f3828f5a3 ""
+  "case2v2.png" 1678323498 40288 7875053dc19b83fa64a64a9802dfbee5 ""
+  "case3v2.png" 1678323337 33637 278b75a2ef33d5b6ff96eb1ddb123b6c ""
+  "case4v2.png" 1678323552 54035 4802c35f7218ac94c9e434686e41d6df ""
+  "main.aux" 1678323553 4751 7830bedc85096d691e4fb35fce5af31b "pdflatex"
+  "main.tex" 1678323373 35281 7e7659b0c176ea846a0f9117b6e706ff ""
+  "methodv2.png" 1678323305 77592 6bbb62c8e2afa21ad5dfc06078bf9b6f ""
   "samp_wav.jpg" 1677930893 265979 04fe5edecff679ad797a78b24069f37b ""
   (generated)
   "main.aux"

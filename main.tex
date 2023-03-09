@@ -55,13 +55,13 @@ If the raw recordings of user's voice, which is mentioned before to contain exce
 However, these recognition services consume large amount of computational power which makes it not feasible to perform the process locally on end user's device. In order to mitigate such problem, service providers resort to processing voice data in their servers. A number of vendors claimed to process the data locally, but only a portion of it, which may not meet the security demand of some consumers. For example, Xiaomi, Inc. claimed Xiao Ai to be able to "perform most of training and evaluation locally"\cite{a20}.
 
 \begin{figure}[htbp]
-    \centerline{\includegraphics[width=8cm]{case1.png}}
+    \centerline{\includegraphics[width=8cm]{case1v2.png}}
     \caption{Case I - Idealized}
     \label{case1}
 \end{figure}
 
 \begin{figure}[htbp]
-    \centerline{\includegraphics[width=8cm]{case2.png}}
+    \centerline{\includegraphics[width=8cm]{case2v2.png}}
     \caption{Case II - Reality}
     \label{case2}
 \end{figure}
@@ -70,7 +70,7 @@ Ideally, an honest service provider would not use the raw recordings for anythin
 However. in reality this imposes a serious privacy concern since the raw recording from user is known to contain much more data than merely for content recognition. Such additional data may be used by malicious service providers or attackers to identify the speaker and cause a data breach incident, as depicted in Fig. 2.
 
 \begin{figure}[htbp]
-    \centerline{\includegraphics[width=8cm]{case3.png}}
+    \centerline{\includegraphics[width=8cm]{case3v2.png}}
     \caption{Case III - Mitigation}
     \label{case3}
 \end{figure}
@@ -90,7 +90,7 @@ It's notable that many approaches to bring privacy to remotely handled voices co
 While evaluation of sensitive content removal is straightforward since researchers are enabled to use Text-To-Speech services with voices and compare the results with sources, the analysis of voice feature is of significantly more complexity. Obfuscation algorithms designed to disable certain recognition algorithms may not disable others and it's possible those algorithms would not confuse humans if the modification is not drastic.
 
 \begin{figure}[htbp]
-    \centerline{\includegraphics[width=8cm]{case4.png}}
+    \centerline{\includegraphics[width=8cm]{case4v2.png}}
     \caption{Case IV - Betrayal}
     \label{case4}
 \end{figure}
@@ -102,7 +102,7 @@ In this paper, we demonstrate the adversarial case mentioned before with the pro
 \section{Methodology}
 
 \begin{figure}[htbp]
-    \centerline{\includegraphics[width=8cm]{method.png}}
+    \centerline{\includegraphics[width=8cm]{methodv2.png}}
     \caption{Overview of Proposed Methodology}
     \label{overview}
 \end{figure}
