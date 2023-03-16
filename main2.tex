@@ -94,16 +94,16 @@ The rest of the paper consists related works, an detailed explanation of the pro
 将Methodology的一些内容放到这个章节
 (攻击、攻击者的设定是怎么样的？ 黑盒白盒？ 攻击者能获得什么模型什么信息？ 为了完成攻击做出了什么假设? 考虑的博弈模型的是怎么样的
 
-It is straightforward to come up with a simple use case that an smartphone vendor provides its users with a desensitization service. But it secretly also want to identify its users after the users sending 
-
-\section{Methodology}
-(这个章节中只需要描述攻击方法、组件、定义、算法等等信息)
+In this adversary, the attacker would like to distribute a modified black-box desensitization service that process the raw voice sequences solely on user's device, which implies that the attacker is not able to obtain the original voice sequences. With the fact that only the desensitized voice is available, attacker would like the service to output sequences that contain adequate information for it to recover original ones from.
 
 Our proposed adversary framework primarily works as an add-on to a benign (non-adversarial) voice desensitization model. The use case, as mentioned before, is depicted by Fig. 4, in which the user chose to use a black-box that disguised itself to be a normal desensitization service, but embedded additional data on top of the desensitized voice sequence for adversarial purposes.
 
-And as depicted in Fig. 5, the "corrupted shield" black-box desensitization service in Fig. 4 is the workflow of our adversary. The structure we designed for the adversary closely resembles a transformer, for the reason mentioned before, that the model we are performing adversary on is conventionally a transformer model. With this particular type of structure, the nature of the desensitization model to be a black-box stay unchanged and there is no additional input or output needed, thus reduced overall suspicion.
+For users, before or after the adversary, the desensitization model remains as a black box, which implies that users are not able to distinguish them by their internal structure.
 
-Despite the fact that desensitization and stenography are separated steps as we presented in Fig. 5, they are in the same black-box, as the dashed-line-surrounded part in the figure. Even though we did not experiment with it, we consider it feasible to combine these two sections to form a unified adversarial desensitization model. As it's a part of the discussion topics on our proposed methodology, it will be further discussed below.
+For the attacker, there are slightly different cases. It's possible that the attacker is the owner of the desensitization model, or obtained a publicly available model. In this case, the model is a white-box, which indicates that the attacker is able to better integrate the stenography part into the black-box presented to users by either training or fine-tuning the stenography model along with the benign model or 
+
+\section{Methodology}
+(这个章节中只需要描述攻击方法、组件、定义、算法等等信息)
 
 In order to complete such workflow, three distinct models are needed as depicted in Fig. 5. They are explained in detail below, but they can also be summarized as following:
 \begin{itemize}
@@ -111,6 +111,7 @@ In order to complete such workflow, three distinct models are needed as depicted
     \item A \textbf{Stenography model} to embed features of original voice sequences on the desensitized ones. The output sequences should trick users into believing it's clean desensitized ones.
     \item A \textbf{Extraction model} to extract the features that \textbf{Stenography model} hid in the voice sequences and recover original ones from them.
 \end{itemize}
+
 (我觉得Methodology一直到这个位置可以拆分放到上一个章节 只留下下面的三个模型具体的介绍和攻击方法1)
 
 \subsection{Benign model}
