@@ -89,6 +89,14 @@ The rest of the paper consists related works, an detailed explanation of the pro
 
 \section{Related work}
 （查阅一些对于脱敏算法相关的攻击方法 补充一些）
+\subsection{Adversary against desensitization}
+
+[PPRL-VGAN, Subverting]
+There are researches on attacking privacy-preserving data transformation models. Some employ similar techniques that attempt to embed certain amount of data in sanitized data with modification to original deep-learning models and recover the original data after the exposure of sanitized data in public by victims. 
+
+An notable instance among them works with images, targeting a privacy-preserving facial expression recognition algorithm, PPRL-VGAN. It sets up the attack with weak assumptions of user, who have white-box access to the attacked model. In order to achieve the adversary, its adversarial parts are embedded in the original model as additional layers or modification of existing layers, thus avoiding user's discovery.
+
+\subsection{Speech anonymization}
 
 \section{Problem statement}
 将Methodology的一些内容放到这个章节
@@ -100,7 +108,13 @@ Our proposed adversary framework primarily works as an add-on to a benign (non-a
 
 For users, before or after the adversary, the desensitization model remains as a black box, which implies that users are not able to distinguish them by their internal structure.
 
-For the attacker, there are slightly different cases. It's possible that the attacker is the owner of the desensitization model, or obtained a publicly available model. In this case, the model is a white-box, which indicates that the attacker is able to better integrate the stenography part into the black-box presented to users by either training or fine-tuning the stenography model along with the benign model or 
+For the attacker, there are slightly different cases.
+
+It's possible that the attacker is the owner of the desensitization model, or obtained a publicly available model. In this case, the model is a white-box, which indicates that the attacker is able to better integrate the stenography part into the black-box presented to users by either training or fine-tuning the stenography model along with the benign model or embedding the model into the benign one, as additional layers.
+
+It's also possible that the attacker has only black-box access to the benign model. In this case, the workflow remain unchanged except for that the attacker have no further control of the integration.
+
+To conclude, the user treating the adversarial workflow as a desensitization service wants to minimize the possibility of identification after the desensitization process while the attacker wants to maximize the quality of extracted data while fulfilling the user's original demands.
 
 \section{Methodology}
 (这个章节中只需要描述攻击方法、组件、定义、算法等等信息)

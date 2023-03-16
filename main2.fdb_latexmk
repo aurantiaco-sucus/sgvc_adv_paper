@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1678861415 "/home/konqi/repos/sgvc_adv_paper/main2.tex" "main2.pdf" "main2" 1678861416
-  "/home/konqi/repos/sgvc_adv_paper/main2.tex" 1678861415 33983 7f08c3ecc4c4953347cf5a109accbed7 ""
+["pdflatex"] 1678930681 "/home/konqi/repos/sgvc_adv_paper/main2.tex" "main2.pdf" "main2" 1678930682
+  "/home/konqi/repos/sgvc_adv_paper/main2.tex" 1678930681 35373 ce8ab6b1c938f3ca07b6bc85a0f54f1b ""
   "/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc" 1650183167 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1650183167 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1650183167 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -195,8 +195,8 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1677674472 4290404 8e195c0dfe28a21313090bccd5982138 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1677653492 2927656 214e7251a1f0e94f7ed8ab4e74b3c7a8 ""
   "IEEEtran.cls" 1677623074 281957 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
-  "main2.aux" 1678861416 4022 e643f8fbc4478b009f0eb961c6396f7d "pdflatex"
-  "main2.tex" 1678861415 33983 7f08c3ecc4c4953347cf5a109accbed7 ""
+  "main2.aux" 1678930682 4281 111f18ddf9fa01bc35e74fa41f514e67 "pdflatex"
+  "main2.tex" 1678930681 35373 ce8ab6b1c938f3ca07b6bc85a0f54f1b ""
   (generated)
   "main2.aux"
   "main2.log"

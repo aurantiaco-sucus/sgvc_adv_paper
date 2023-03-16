@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.1)  15 MAR 2023 14:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.1)  16 MAR 2023 09:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -430,28 +430,28 @@ File: c70gbsn.fdx 2021/10/16 4.8.5
 ) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
-] [2] [3] [4]
-Underfull \hbox (badness 10000) in paragraph at lines 352--353
+] [2] [3] [4] [5]
+Underfull \hbox (badness 10000) in paragraph at lines 366--367
 []\OT1/ptm/m/n/8 Vidizmo - Au-to-matic au-dio redac-tion soft-ware.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 352--353
+Underfull \hbox (badness 10000) in paragraph at lines 366--367
 \OT1/ptm/m/n/8 https://www.vidizmo/com/vidizmo-artificial-intelligence-
  []
 
-[5]
-Underfull \hbox (badness 6842) in paragraph at lines 359--360
+
+Underfull \hbox (badness 6842) in paragraph at lines 373--374
 []\OT1/ptm/m/n/8 iFly In-put Method - Chi-nese/English in-put method soft-ware.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 360--361
+Underfull \hbox (badness 10000) in paragraph at lines 374--375
 []\OT1/ptm/m/n/8 GBoard - Mul-ti-lin-gual in-put method soft-ware.
  []
 
 
-Overfull \hbox (19.86926pt too wide) in paragraph at lines 360--361
+Overfull \hbox (19.86926pt too wide) in paragraph at lines 374--375
 \OT1/ptm/m/n/8 https://play.google.com/store/apps/details?id=com.google.android.inputmethod 
  []
 
@@ -461,13 +461,13 @@ Overfull \hbox (19.86926pt too wide) in paragraph at lines 360--361
 Here is how much of TeX's memory you used:
  6206 strings out of 478238
  89749 string characters out of 5850457
- 416455 words of memory out of 5000000
+ 421138 words of memory out of 5000000
  24222 multiletter control sequences out of 15000+600000
  531432 words of font info for 174 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,8n,62p,1034b,1019s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu30.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu4e.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu4f.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu50.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu51.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu52.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu53.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu54.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu56.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu57.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu58.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu59.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu5b.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu5c.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu5d.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu5f.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu60.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu61.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu62.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu63.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu65.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu66.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu67.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu68.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu69.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu6a.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu6b.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu6c.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu70.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu72.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu73.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu75.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu76.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu77.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7a.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7b.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7e.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7f.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu80.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu81.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu82.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu83.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu86.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu88.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu89.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8b.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8d.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8f.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu91.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu94.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu95.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu96.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu97.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu98.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu9e.pfb></usr/share/texmf-dist/fonts/type1/arphic/gbsnu/gbsnuff.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main2.pdf (6 pages, 323895 bytes).
+Output written on main2.pdf (6 pages, 324743 bytes).
 PDF statistics:
  386 PDF objects out of 1000 (max. 8388607)
  198 compressed objects within 2 object streams
