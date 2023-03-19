@@ -54,10 +54,8 @@ If the original recording of the user's voice, which contains too much private i
 
 However, these recognition services consume a lot of computing power, and it is almost impossible to execute them locally on the user. Therefore, service providers process this data on their servers. Although some vendors claim to process data locally, it is still unavoidable that part of the data will be processed in the server, which obviously does not meet the security requirements. For example, Xiaomi claims that Xiao Ai can "do most of the training and evaluation locally" \cite{a20}.
 
-
 Ideally, an honest service provider would not use the raw recordings for anything other than the intended purpose, as depicted in Fig. 1.
 However. in reality this imposes a serious privacy concern since the raw recording from user is known to contain much more data than merely for content recognition. Such additional data may be used by malicious service providers or attackers to identify the speaker and cause a data breach incident, as depicted in Fig. 2. To address this type of problem, many speech desensitization algorithms are being developed, the general workflow of which is shown in Figure 3(图片描述不够细致).
-
 
 (这里开始到72行这些脱敏方法的介绍尽量简短一些
 因为介绍他们主要是为了引出本文的攻击方法)
@@ -96,7 +94,12 @@ There are researches on attacking privacy-preserving data transformation models.
 
 An notable instance among them works with images, targeting a privacy-preserving facial expression recognition algorithm, PPRL-VGAN. It sets up the attack with weak assumptions of user, who have white-box access to the attacked model. In order to achieve the adversary, its adversarial parts are embedded in the original model as additional layers or modification of existing layers, thus avoiding user's discovery.
 
-\subsection{Speech anonymization}
+\subsection{Voiceprint anonymization}
+Numerous research projects have been conducted for the preservation of voice privacy via the replacement of voiceprint. We consider these projects to fall in two categories: Traditional frequency-domain or voice tract analysis solutions and newer CNN-based voice transformation frameworks. 
+
+Those employ frequency-domain analysis use various preprocessing techniques to deduce certain features from the raw voice sequences. Then a statistical formula is applied to obfuscate these frequency features. Reversing the preprocessing steps previously applied, the transformed voice sequences is obtained.
+
+There also exhibits a number of solutions utilizing neural networks. These methods are more likely to employ less sophisicated preprocessing means and focus on increasing the complexity of CNNs. These methods benefit from recent improvments made on NN-based content generation algorithms and transformer frameworks, such as the Diffusion models commonly used with graphics data.
 
 \section{Problem statement}
 将Methodology的一些内容放到这个章节
