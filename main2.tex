@@ -36,7 +36,7 @@
 \maketitle
 
 \begin{abstract}
-Voice data is acquired and utilized by a variety of consumer services.During the computation of these services, most of the user's raw records are sent to the web server associated with them. In this way, serious privacy problems are bound to be caused, because the raw voice contains voiceprint and content information, which is considered sufficient to identify the speaker or various sensitive information related to the speaker. In order to mitigate such problem, Desensitization methods are employed as an intermediary between user and the cloud services. However, if these methods are provided by a third party as a black box, it may not be safe enough. In this paper, we discusses and demonstrates the possibility of hiding information sufficient to recover original voice from in seemingly desensitized voices that may be used for online services with deep learning technologies, utilizing StarGAN-based voice transformation and voice-optimized audio stenography technologies.
+Voice data is acquired and utilized by a variety of consumer services.During the computation of these services, most of the user's raw records are sent to the web server associated with them. In this way, malicious service providers can identify the users, because the raw voice sequences contain rich voiceprint information, which is sufficient to identify the speaker or various sensitive information associated with the speaker. In order to mitigate such problem, Desensitization methods are employed as an intermediary between user and the cloud services. However, if these methods are provided by a third party as a black box, it may not be safe enough. In this paper, we demonstrate and experiment the possibility of hiding information sufficient to extract original voice from in seemingly desensitized voices that may be used for various online services, utilizing StarGAN-based voice transformation and voice-optimized audio stenography technologies.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -44,24 +44,31 @@ Voice data is acquired and utilized by a variety of consumer services.During the
 \end{IEEEkeywords}
 
 \section{Introduction}
-Since the last century, voice has become one of the important means of human-computer interaction. Voice recognition technology enables this interaction.
+Voice has been one of the most important means of human-machine interaction. With the rapid development of deep-learning means, there are now a large number of voice recognition and manipulation technologies.
 
-The number of speech recognition technologies in existence is very large. Among them, voiceprint extraction technology enables computers to use only certain features in human voice for authorization, without involving traditional password-based methods, thereby avoiding security concerns with weak passwords or those been in use for a long period. Also the need for users to remember a robust and secure sequence of password is eliminated. (描述一下传统的方法有什么问题). Some voice assistant apps on smartphones support voiceprint-based security measures to prevent accidental (or malicious) activation by anyone other than the smartphone owner,such as Siri from Apple Inc. and Xiao Ai from Xiaomi Inc.\cite{a19, a20}. Also, there are many voice-typing enabled input methods for various kinds of devices, such as iFly Input Method from iFlyTek and GBoard from Google, Inc.\cite{a21, a22}.
+Particularly, voiceprint analysis enabled effective association of human identity to their voices, thus led to the possibility of voice-only authentication. This type of authentication allows users to omit traditional password-based security factor, thereby avoided security concerns with weak passwords or the lack of regular modification. Also, the need for users to remember a robust and secure sequence of password is thus eliminated.
 
-In recent years, deep learning and deep learning-based speech analysis techniques have made great progress. This also leads to the fact that humans cannot easily distinguish the speech sequences produced by the generation-oriented services, and even the human ear cannot recognize the most subtle features in the speech sequences provided by the discrimination-oriented services.\cite{a12}.At the same time, the advancement of this speech analysis technology also warns that people will be vulnerable to high-precision recognition\cite{a6, a7}. Because voice contains a lot of sensitive personal information, if users' voice data is processed by companies with insufficient security infrastructure or even malicious companies, it is likely to lead to a privacy crisis.
+Some voice assistant apps on smartphones support voiceprint-based security measures to prevent accidental (or malicious) activation by anyone other than the smartphone owner,such as Siri from Apple Inc. and Xiao Ai from Xiaomi Inc.\cite{a19, a20}. Also, there are many voice-typing enabled input methods for various kinds of devices, such as iFly Input Method from iFlyTek and GBoard from Google, Inc.\cite{a21, a22}.
 
-If the original recording of the user's voice, which contains too much private information, is completely processed locally on the user's device (i.e., from recording to recognition), the security risk is not great because only the unrecognized results are exported or sent to the remote server.
+Also in recent years, deep learning and deep learning-based speech synthesis techniques have made great progress. This also leads to the fact that humans cannot easily distinguish the speech sequences produced by the generation-oriented services, and even the human ear cannot recognize the most subtle features in the speech sequences provided by the discrimination-oriented services.\cite{a12}.
 
-However, these recognition services consume a lot of computing power, and it is almost impossible to execute them locally on the user. Therefore, service providers process this data on their servers. Although some vendors claim to process data locally, it is still unavoidable that part of the data will be processed in the server, which obviously does not meet the security requirements. For example, Xiaomi claims that Xiao Ai can "do most of the training and evaluation locally" \cite{a20}.
+However, such advancement in other hand reminds people of the feature-rich nature of raw voice recordings and the vulnerabilities born from them\cite{a6, a7}. These sequences contains enormous amount of sensitive personal information, and if they are processed by a untrusted party, the likelihood of data exposure and leaking is high.
 
-Ideally, an honest service provider would not use the raw recordings for anything other than the intended purpose, as depicted in Fig. 1.
-However. in reality this imposes a serious privacy concern since the raw recording from user is known to contain much more data than merely for content recognition. Such additional data may be used by malicious service providers or attackers to identify the speaker and cause a data breach incident, as depicted in Fig. 2. To address this type of problem, many speech desensitization algorithms are being developed, the general workflow of which is shown in Figure 3(图片描述不够细致).
+The decisive solution to this problem is to perform the entire voice recognition workflow locally on user's device (i.e. from recording to recognition). In this way, the majority of security risk is thus eliminated because only the unidentifiable results are exported and sent to the remote servers.
 
-(这里开始到72行这些脱敏方法的介绍尽量简短一些
-因为介绍他们主要是为了引出本文的攻击方法)
+However, these services are unlikely to be lightweight. Instead, they are more likely to consume great amount of computational power, thus rendering the idea of executing them locally not feasible. Therefore, it's unavoidable that certain parts of workflow of such services will be done remotely, which causes security issues. For example, Xiaomi claims that Xiao Ai can "do most of the training and evaluation locally" \cite{a20}.
+
+\begin{figure}[htbp]
+    \centerline{\includegraphics[width=8cm]{case2v3.png}}
+    \caption{Is the speech service honest?}
+    \label{case2}
+\end{figure}
+
+Ideally, an honest service provider would not use the raw recordings for anything other than the intended purpose. However, in reality this is not likely to be true for every single service provider. Such additional data, as mentioned before, may be used maliciously to identify the speaker and cause a data breach incident, as depicted in Fig. 1. To address this type of problem, many speech desensitization algorithms are being developed.
+
 Conventional voice desensitization methods are believed to focus on two radically different areas: Content and Voiceprint.
 
-Those which focus on content desensitization employ certain methodologies to remove or replace voice segments that are detected to contain sensitive information. There are publicly available APIs\cite{a13} and dedicated softwares for this purpose\cite{a14}. As a safe method or the last resort, some may employ manual audio editing to achieve this goal, and there exists a number of softwares sufficient for this use case\cite{a15}.
+Those focus on content desensitization employ methodologies to remove or replace voice segments that are detected to contain sensitive information. There are publicly available APIs\cite{a13} and dedicated softwares for this purpose\cite{a14}. As a safe method or the last resort, some may employ manual audio editing to achieve this goal, and there exists a number of softwares sufficient for this use case\cite{a15}.
 
 Other methods may apply distortion on entire voice sequences. Deep learning based methodologies are employed in both types of methods along with traditional algorithms\cite{a9, a10, a11}.
 
@@ -69,7 +76,13 @@ It's notable that many approaches to bring privacy to remotely handled voices co
 （下面可以简短一些：脱敏语音中没有敏感数据是不现实的，本文就针对脱敏模型的弱点...做出了...攻击）
 （将别人的工作、算法放到relatedwork去介绍）
 
-It's unlikely to guarantee the absence of sensitive data in desensitized voices, primarily due to the weakness of current desensitization. However, the desensitization method itself could also be modified to contain adversarial features without drastically degradation of on-paper performance\cite{a1}, as depicted in Fig. 4. Targeting this particular case, we performs attack on a desensitization model in this paper.
+\begin{figure}[htbp]
+    \centerline{\includegraphics[width=8cm]{adversary.png}}
+    \caption{Is the desensitization service honest?}
+    \label{case4}
+\end{figure}
+
+It's unlikely to guarantee the absence of sensitive data in desensitized voices, primarily due to the weakness of current desensitization. However, the desensitization method itself could also be modified to contain adversarial features without drastically degradation of on-paper performance\cite{a1}, as depicted in Fig. 2. Targeting this particular case, we performs attack on a desensitization model in this paper.
 
 In summary, this paper makes the following contributions.
 
@@ -94,20 +107,28 @@ There are researches on attacking privacy-preserving data transformation models.
 
 An notable instance among them works with images, targeting a privacy-preserving facial expression recognition algorithm, PPRL-VGAN. It sets up the attack with weak assumptions of user, who have white-box access to the attacked model. In order to achieve the adversary, its adversarial parts are embedded in the original model as additional layers or modification of existing layers, thus avoiding user's discovery.
 
-\subsection{Voiceprint anonymization}
+\subsection{Voiceprint obfuscation}
 Numerous research projects have been conducted for the preservation of voice privacy via the replacement of voiceprint. We consider these projects to fall in two categories: Traditional frequency-domain or voice tract analysis solutions and newer CNN-based voice transformation frameworks. 
 
+\subsubsection{Non deep learning based methods}
 Those employ frequency-domain analysis use various preprocessing techniques to deduce certain features from the raw voice sequences. Then a statistical formula is applied to obfuscate these frequency features. Reversing the preprocessing steps previously applied, the transformed voice sequences is obtained.
 
-There also exhibits a number of solutions utilizing neural networks. These methods are more likely to employ less sophisicated preprocessing means and focus on increasing the complexity of CNNs. These methods benefit from recent improvments made on NN-based content generation algorithms and transformer frameworks, such as the Diffusion models commonly used with graphics data.
+\subsubsection{Deep learning based methods}
+There also exhibits a number of solutions utilizing neural networks. These methods are more likely to employ less sophisticated preprocessing means and focus on increasing the complexity of CNNs. These methods benefit from recent improvements made on NN-based content generation algorithms and transformer frameworks, such as the Diffusion models commonly used with graphics data.
 
 \section{Problem statement}
 将Methodology的一些内容放到这个章节
 (攻击、攻击者的设定是怎么样的？ 黑盒白盒？ 攻击者能获得什么模型什么信息？ 为了完成攻击做出了什么假设? 考虑的博弈模型的是怎么样的
 
-In this adversary, the attacker would like to distribute a modified black-box desensitization service that process the raw voice sequences solely on user's device, which implies that the attacker is not able to obtain the original voice sequences. With the fact that only the desensitized voice is available, attacker would like the service to output sequences that contain adequate information for it to recover original ones from.
+\begin{figure}[htbp]
+    \centerline{\includegraphics[width=8cm]{methodv3.png}}
+    \caption{The adversarial workflow}
+    \label{case1}
+\end{figure}
 
-Our proposed adversary framework primarily works as an add-on to a benign (non-adversarial) voice desensitization model. The use case, as mentioned before, is depicted by Fig. 4, in which the user chose to use a black-box that disguised itself to be a normal desensitization service, but embedded additional data on top of the desensitized voice sequence for adversarial purposes.
+In this adversary, the attacker would like to distribute a modified black-box desensitization service that process the raw voice sequences solely on user's device, which implies that the attacker is not able to obtain the original voice sequences. With the fact that only the desensitized voice is available, attacker would like the service to output sequences that contain adequate information for it to recover original ones from. The workflow is briefly described with Fig. 3.
+
+Our proposed adversary framework primarily works as an add-on to a benign (non-adversarial) voice desensitization model. The use case, as mentioned before, in which the user chose to use a black-box that disguised itself to be a normal desensitization service, but embedded additional data on top of the desensitized voice sequence for adversarial purposes.
 
 For users, before or after the adversary, the desensitization model remains as a black box, which implies that users are not able to distinguish them by their internal structure.
 
@@ -122,7 +143,7 @@ To conclude, the user treating the adversarial workflow as a desensitization ser
 \section{Methodology}
 (这个章节中只需要描述攻击方法、组件、定义、算法等等信息)
 
-In order to complete such workflow, three distinct models are needed as depicted in Fig. 5. They are explained in detail below, but they can also be summarized as following:
+In order to complete such workflow, three distinct models are needed. They are explained in detail below, but they can also be summarized as following:
 \begin{itemize}
     \item A \textbf{Benign model} to be attacked by. This model generates desensitized voice sequences that users would normally want to get from this black-box.
     \item A \textbf{Stenography model} to embed features of original voice sequences on the desensitized ones. The output sequences should trick users into believing it's clean desensitized ones.
