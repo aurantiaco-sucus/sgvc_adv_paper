@@ -36,7 +36,7 @@
 \maketitle
 
 \begin{abstract}
-Voice data is acquired and utilized by a variety of consumer services.During the computation of these services, most of the user's raw records are sent to the web server associated with them. In this way, malicious service providers can identify the users, because the raw voice sequences contain rich voiceprint information, which is sufficient to identify the speaker or various sensitive information associated with the speaker. In order to mitigate such problem, Desensitization methods are employed as an intermediary between user and the cloud services. However, if these methods are provided by a third party as a black box, it may not be safe enough. In this paper, we demonstrate and experiment the possibility of hiding information sufficient to extract original voice from in seemingly desensitized voices that may be used for various online services, utilizing StarGAN-based voice transformation and voice-optimized audio stenography technologies.
+Voice data is broadly acquired and utilized by consumer services. In order to process such data, most of the raw records are sent to web servers, possibly with dedicated acceleration hardware. However, in this way malicious service providers can identify the users because the raw voice sequences contain rich voiceprint information, which is adequate for deduction of a large amount of private information. In order to mitigate such problem, desensitization methods are employed as secure intermediaries between user and the cloud services. However, if these methods are provided by a third party as a black box, it may not proved to be safe enough. In this paper, we demonstrate and experiment the possibility of hiding information sufficient to extract original voice from in seemingly desensitized voices that may be used for various online services, utilizing StarGAN-based voice transformation and voice-optimized audio stenography technologies.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -46,17 +46,17 @@ Voice data is acquired and utilized by a variety of consumer services.During the
 \section{Introduction}
 Voice has been one of the most important means of human-machine interaction. With the rapid development of deep-learning means, there are now a large number of voice recognition and manipulation technologies.
 
-Particularly, voiceprint analysis enabled effective association of human identity to their voices, thus led to the possibility of voice-only authentication. This type of authentication allows users to omit traditional password-based security factor, thereby avoided security concerns with weak passwords or the lack of regular modification. Also, the need for users to remember a robust and secure sequence of password is thus eliminated.
+Particularly, voiceprint analysis enabled effective association of human identity to their voices, thus led to the possibility of voice-only authentication. This type of authentication allows users to omit traditional password-based security factor, thereby avoided associated concerns like weak passwords or the lack of regular modification. Also, the need for users to recall a robust and secure sequence of password is thus eliminated.
 
-Some voice assistant apps on smartphones support voiceprint-based security measures to prevent accidental (or malicious) activation by anyone other than the smartphone owner,such as Siri from Apple Inc. and Xiao Ai from Xiaomi Inc.\cite{a19, a20}. Also, there are many voice-typing enabled input methods for various kinds of devices, such as iFly Input Method from iFlyTek and GBoard from Google, Inc.\cite{a21, a22}.
+Some voice assistant apps on smart phones support voiceprint-based security measures to prevent accidental (or malicious) activation by anyone other than the smartphone owner,such as Siri from Apple Inc. and Xiao Ai from Xiaomi Inc.\cite{a19, a20}. Also, there are many voice enabled IMEs for various kinds of devices, such as iFly Input Method from iFlyTek and GBoard from Google, Inc.\cite{a21, a22}.
 
-Also in recent years, deep learning and deep learning-based speech synthesis techniques have made great progress. This also leads to the fact that humans cannot easily distinguish the speech sequences produced by the generation-oriented services, and even the human ear cannot recognize the most subtle features in the speech sequences provided by the discrimination-oriented services.\cite{a12}.
+Also in recent years, deep learning and deep learning-based speech synthesis techniques have made great progress. With state of the art techniques, humans can not easily distinguish the speech sequences produced by the generation-oriented services, and even the human ear cannot recognize the most subtle features in the speech sequences provided by the discrimination-oriented services.\cite{a12}.
 
 However, such advancement in other hand reminds people of the feature-rich nature of raw voice recordings and the vulnerabilities born from them\cite{a6, a7}. These sequences contains enormous amount of sensitive personal information, and if they are processed by a untrusted party, the likelihood of data exposure and leaking is high.
 
 The decisive solution to this problem is to perform the entire voice recognition workflow locally on user's device (i.e. from recording to recognition). In this way, the majority of security risk is thus eliminated because only the unidentifiable results are exported and sent to the remote servers.
 
-However, these services are unlikely to be lightweight. Instead, they are more likely to consume great amount of computational power, thus rendering the idea of executing them locally not feasible. Therefore, it's unavoidable that certain parts of workflow of such services will be done remotely, which causes security issues. For example, Xiaomi claims that Xiao Ai can "do most of the training and evaluation locally" \cite{a20}.
+However, these services are unlikely to be lightweight. Instead, they are more likely to consume great amount of computational power, thus rendering the idea of executing them locally not feasible. Therefore, it's unavoidable that certain parts of workflow of such services will have to be done remotely, and potentially cause security issues. For example, Xiaomi claims that Xiao Ai can "do most of the training and evaluation locally" \cite{a20}.
 
 \begin{figure}[htbp]
     \centerline{\includegraphics[width=8cm]{case2v3.png}}
@@ -64,17 +64,15 @@ However, these services are unlikely to be lightweight. Instead, they are more l
     \label{case2}
 \end{figure}
 
-Ideally, an honest service provider would not use the raw recordings for anything other than the intended purpose. However, in reality this is not likely to be true for every single service provider. Such additional data, as mentioned before, may be used maliciously to identify the speaker and cause a data breach incident, as depicted in Fig. 1. To address this type of problem, many speech desensitization algorithms are being developed.
+Ideally, an honest service provider would not use the raw recordings for anything other than the intended purpose. However, in reality this is not likely to be true for every single service provider. Such additional data, as mentioned before, may be used maliciously to identify the speaker and cause the exposure of user identity and other dangers as depicted in Fig. \ref{case2}. To alleviate such problem, many speech desensitization algorithms are being developed.
 
 Conventional voice desensitization methods are believed to focus on two radically different areas: Content and Voiceprint.
 
-Those focus on content desensitization employ methodologies to remove or replace voice segments that are detected to contain sensitive information. There are publicly available APIs\cite{a13} and dedicated softwares for this purpose\cite{a14}. As a safe method or the last resort, some may employ manual audio editing to achieve this goal, and there exists a number of softwares sufficient for this use case\cite{a15}.
+Those focus on content desensitization employ methodologies to remove or replace voice segments that are detected to contain sensitive information. There are publicly available APIs\cite{a13} and dedicated softwares for this purpose\cite{a14}. As a safe method or the last resort, some may employ manual audio editing to achieve this goal, as there exists a number of softwares sufficient for this use case\cite{a15}.
 
 Other methods may apply distortion on entire voice sequences. Deep learning based methodologies are employed in both types of methods along with traditional algorithms\cite{a9, a10, a11}.
 
-It's notable that many approaches to bring privacy to remotely handled voices combine these 2 ideas to provide better performance. There exists a number of active researches on this subject\cite{a8}.
-（下面可以简短一些：脱敏语音中没有敏感数据是不现实的，本文就针对脱敏模型的弱点...做出了...攻击）
-（将别人的工作、算法放到relatedwork去介绍）
+It's notable that many approaches to bring privacy to remotely handled voice recordings combine these 2 ideas to provide better performance. There exists a number of active researches on this subject\cite{a8}.
 
 \begin{figure}[htbp]
     \centerline{\includegraphics[width=8cm]{adversary.png}}
@@ -82,7 +80,7 @@ It's notable that many approaches to bring privacy to remotely handled voices co
     \label{case4}
 \end{figure}
 
-It's unlikely to guarantee the absence of sensitive data in desensitized voices, primarily due to the weakness of current desensitization. However, the desensitization method itself could also be modified to contain adversarial features without drastically degradation of on-paper performance\cite{a1}, as depicted in Fig. 2. Targeting this particular case, we performs attack on a desensitization model in this paper.
+It's unlikely to guarantee the absence of sensitive data in desensitized voices, primarily due to the limitataions of current desensitization methods. However, there exists a case not being commonly considered. The desensitization method itself could also be modified to contain adversarial features without excess degradation of performance\cite{a1}, as depicted in Fig. \ref{case4}. In this paper, we target this particular case and perform attack on a desensitization model.
 
 In summary, this paper makes the following contributions.
 
@@ -95,38 +93,38 @@ In summary, this paper makes the following contributions.
 \item We conduct experiments on a particular voice transformation model with well-known voice samples. From them, we analyzed the performance and potential of this attack framework.
 
 \end{itemize}
-(将下面这段分为几点 填到上面item里面 概括一下主要贡献)
 The rest of the paper consists related works, an detailed explanation of the proposed methodology, including the discussion of potential use cases and opportunities of future works.
 
 \section{Related work}
-（查阅一些对于脱敏算法相关的攻击方法 补充一些）
+
 \subsection{Adversary against desensitization}
 
 [PPRL-VGAN, Subverting]
 There are researches on attacking privacy-preserving data transformation models. Some employ similar techniques that attempt to embed certain amount of data in sanitized data with modification to original deep-learning models and recover the original data after the exposure of sanitized data in public by victims. 
 
-An notable instance among them works with images, targeting a privacy-preserving facial expression recognition algorithm, PPRL-VGAN. It sets up the attack with weak assumptions of user, who have white-box access to the attacked model. In order to achieve the adversary, its adversarial parts are embedded in the original model as additional layers or modification of existing layers, thus avoiding user's discovery.
+An notable instance among them works with images, targeting a privacy-preserving facial expression recognition algorithm, PPRL-VGAN. It sets up the attack with weak assumptions of user, who have white-box access to the attacked model. In order to achieve the adversary, its adversarial parts are embedded in the original model as additional layers or modification of existing layers, thus avoiding user's discovery.\cite{a11a}
 
 \subsection{Voiceprint obfuscation}
-Numerous research projects have been conducted for the preservation of voice privacy via the replacement of voiceprint. We consider these projects to fall in two categories: Traditional frequency-domain or voice tract analysis solutions and newer CNN-based voice transformation frameworks. 
+
+Numerous research projects have been conducted for the preservation of voice privacy via the replacement of voiceprint. We consider these projects to fall in two categories: Traditional frequency-domain or voice tract analysis solutions and newer CNN-based voice transformation frameworks.
 
 \subsubsection{Non deep learning based methods}
-Those employ frequency-domain analysis use various preprocessing techniques to deduce certain features from the raw voice sequences. Then a statistical formula is applied to obfuscate these frequency features. Reversing the preprocessing steps previously applied, the transformed voice sequences is obtained.
+
+Those employ frequency-domain analysis use various preprocessing techniques to deduce certain features from the raw voice sequences. Then a statistical formula is applied to obfuscate these frequency features. Reversing the preprocessing steps previously applied, the transformed voice sequences is obtained.\cite{a9, a10, a11}
 
 \subsubsection{Deep learning based methods}
-There also exhibits a number of solutions utilizing neural networks. These methods are more likely to employ less sophisticated preprocessing means and focus on increasing the complexity of CNNs. These methods benefit from recent improvements made on NN-based content generation algorithms and transformer frameworks, such as the Diffusion models commonly used with graphics data.
+
+There also exhibits a number of solutions utilizing neural networks. These methods are more likely to employ less sophisticated preprocessing means and focus on increasing the complexity of CNNs. These methods benefit from recent improvements made on NN-based content generation algorithms and transformer frameworks, such as the Diffusion models commonly used with graphics data.\cite{a8}
 
 \section{Problem statement}
-将Methodology的一些内容放到这个章节
-(攻击、攻击者的设定是怎么样的？ 黑盒白盒？ 攻击者能获得什么模型什么信息？ 为了完成攻击做出了什么假设? 考虑的博弈模型的是怎么样的
 
 \begin{figure}[htbp]
     \centerline{\includegraphics[width=8cm]{methodv3.png}}
     \caption{The adversarial workflow}
-    \label{case1}
+    \label{wflow}
 \end{figure}
 
-In this adversary, the attacker would like to distribute a modified black-box desensitization service that process the raw voice sequences solely on user's device, which implies that the attacker is not able to obtain the original voice sequences. With the fact that only the desensitized voice is available, attacker would like the service to output sequences that contain adequate information for it to recover original ones from. The workflow is briefly described with Fig. 3.
+In this adversary, the attacker would like to distribute a modified black-box desensitization service that process the raw voice sequences solely on user's device, which implies that the attacker is not able to obtain the original voice sequences. With the fact that only the desensitized voice is available, attacker would like the service to output sequences that contain adequate information for it to recover original ones from. The workflow is briefly described with Fig. \ref{wflow}.
 
 Our proposed adversary framework primarily works as an add-on to a benign (non-adversarial) voice desensitization model. The use case, as mentioned before, in which the user chose to use a black-box that disguised itself to be a normal desensitization service, but embedded additional data on top of the desensitized voice sequence for adversarial purposes.
 
@@ -141,7 +139,6 @@ It's also possible that the attacker has only black-box access to the benign mod
 To conclude, the user treating the adversarial workflow as a desensitization service wants to minimize the possibility of identification after the desensitization process while the attacker wants to maximize the quality of extracted data while fulfilling the user's original demands.
 
 \section{Methodology}
-(这个章节中只需要描述攻击方法、组件、定义、算法等等信息)
 
 In order to complete such workflow, three distinct models are needed. They are explained in detail below, but they can also be summarized as following:
 \begin{itemize}
@@ -149,8 +146,6 @@ In order to complete such workflow, three distinct models are needed. They are e
     \item A \textbf{Stenography model} to embed features of original voice sequences on the desensitized ones. The output sequences should trick users into believing it's clean desensitized ones.
     \item A \textbf{Extraction model} to extract the features that \textbf{Stenography model} hid in the voice sequences and recover original ones from them.
 \end{itemize}
-
-(我觉得Methodology一直到这个位置可以拆分放到上一个章节 只留下下面的三个模型具体的介绍和攻击方法1)
 
 \subsection{Benign model}
 
@@ -160,7 +155,7 @@ Specifically, this specific StarGAN-VC implementation employs a transformer-base
 
 \subsection{Stenography model}
 
-The stenography model works as an intermediate between the user and the benign model to embed information of original voice into clean product of the benign model. It's clear that, users of this adversarial product are not intended to notice the presence of such stenography model that attempts to tamper the clean output.
+The stenography model works as an add-on of the benign model to embed information of original voice into clean product of the benign model. It's notable that, users of this adversarial product are not intended to notice the presence of such stenography model that attempts to tamper the clean output.
 
 Details are discussed in the following sections. However, the characteristics a stenography model needed to be adequate for this purpose can be summarized as follows:
 
@@ -169,13 +164,11 @@ Details are discussed in the following sections. However, the characteristics a 
     \item \textbf{Sufficient performance}: The stenography model should embed sufficient information for the extraction model to recover the original voice sequence, thus ensuring the possibility of the adversary. But it should also avoid excess modifications applied to the samples to reduce suspicion.
 \end{itemize}
 
-To prevent users from discovering the stenography logic, one can attempt to package the entire product into a black box that users get convincing results, hoping they have no questions about potential security risks from a non-transparent process.
+To prevent users from discovering the stenography logic, one can rely on the black-box nature of such type of desensitization services. However, users might have concern over potential security risks from a non-transparent process of desensitization.
 
-However, such actions may rise suspicion among users, which may not be desired in some cases. Another robust solution to this problem is to embed the stenography model into the victim, as an additional set of layers for "post-processing", thus integrated with it. In this way, the presence of stenography model could no longer be easily detected without dedicated research of behaviour or, even, source code.
+An robust solution to this problem is to embed the stenography model into the benign one, as an additional set of layers for "post-processing", thus achieve the integration. In this way, the presence of stenography model could no longer be easily detected without dedicated research of behaviour or even the source code and weights.
 
-Also, the benign desensitization model attempts to replace a certain amount of features of original voices with features that does not belong to the owner of them while the stenography model attempts to embed a certain amount of information of original features into the already-desensitized voices.
-
-It's very likely that during this process the textual content of the voice or the overall audio quality will experience degradation to a degree. For this reason, the stenography model chosen for this purpose should be high quality enough to avoid excessively modifying the voice output.
+The benign desensitization model attempts to replace a certain amount of features of original voices with features that does not belong to the owner of them while the stenography model attempts to embed a certain amount of information of original features into the already-desensitized voices. It's very likely that during this process the textual content of the voice or the overall audio quality will experience degradation to a certain degree. For this reason, the stenography model chosen for this purpose should be adequately powerful to avoid excessive modification to the voice output.
 
 There exist a number of solutions for this purpose\cite{a5}. In order to achieve such a task to hide sufficient information in desensitized ones while minimizing the differences made, we employed the Hide and Speak model\cite{a4}, an voice-centralized stenography model that could be considered as state of the art as it handles different lengths of carrier data and target data and produce high quality results.
 
@@ -217,17 +210,21 @@ Each row contains statistics targeting the original identity of samples where th
 
 \begin{itemize}
     \item \textbf{Mean} - Average value of scores. Higher values mean generally closer to the original speaker.
-    \item \textbf{Definiteness} - Ratio of scores being greater than 0.6, which means the sample can be confirmed to bear the same speaker as the original one. Higher values mean values are more definite.
+    \item \textbf{Certainty} - Ratio of scores being greater than 0.6, which means the sample can be confirmed to bear the same speaker as the original one. Higher values mean values are more definite.
     \item \textbf{Best} - Best value of scores.
     \item \textbf{Worst} - Worst value of scores. Closer value with \textbf{Best} means better stability.
-    \item \textbf{Class Ratio} - Ratio of samples being classified into its original speaker, i.e. have the highest score being the original speaker, as mentioned before. Higher values mean higher probability an generic classification model will think the samples have the same identity of the original speakers.
+    \item \textbf{Class Ratio (Abbrivated as "Class R.")} - Ratio of samples being classified into its original speaker, i.e. have the highest score being the original speaker, as mentioned before. Higher values mean higher probability an generic classification model will think the samples have the same identity of the original speakers.
 \end{itemize}
 
 \subsection{Analysis}
 
+\begin{figure}[htbp]
+    \centerline{\includegraphics[width=8cm]{samp_wav.jpg}}
+    \caption{4 sets of samples}
+    \label{samp1}
+\end{figure}
 
-
-What is depicted in Fig. 6 is 4 sets of voice samples in different stages of processing, original(\textbf{ori}), desensitized(\textbf{des}), stenography(\textbf{msg}) and extracted(\textbf{rec}). From which it's noticeable that the overall performance of this adversary is reasonable.
+What is depicted in Fig. \ref{samp1} is 4 sets of voice samples in different stages of processing, original(\textbf{ori}), desensitized(\textbf{des}), stenography(\textbf{msg}) and extracted(\textbf{rec}). From which it's noticeable that the overall performance of this adversary is reasonable.
 
 \subsubsection{Original samples}
 
@@ -235,7 +232,7 @@ According to Table I, all of the score statistics, except for the \textbf{Worst}
 
 \subsubsection{Desensitized samples}
 
-According to Table II, the overall score dropped drastically from over 0.8 to over 0.4. It can be argued that from the \textbf{Best} and \textbf{Class Ratio} numbers that there still exhibits a portion of samples that are classified into the original speaker. However, these type of classification results can not be trusted because they are vague, according to the close-to-zero \textbf{Definiteness} value.
+According to Table II, the overall score dropped drastically from over 0.8 to over 0.4. It can be argued that from the \textbf{Best} and \textbf{Class Ratio} numbers that there still exhibits a portion of samples that are classified into the original speaker. However, these type of classification results can not be trusted because they are vague, according to the close-to-zero \textbf{Certainty} value.
 
 \subsubsection{Stenography samples}
 
@@ -247,24 +244,24 @@ It's highly likely that the changes are caused by the slight content degradation
 
 \subsubsection{Extracted samples}
 
-As mentioned before, extracted samples are meant to be as close to the original samples as possible. As presented in Table IV, the values are slightly inferior than the original samples with the decrease of score within 0.1 to 0.2. However, despite the worsen results, the \textbf{Definiteness} and \textbf{Class Ratio} are still well desirable, suggesting that the usability of these samples are comparable to the original ones, which declares the success of adversary.
+As mentioned before, extracted samples are meant to be as close to the original samples as possible. As presented in Table IV, the values are slightly inferior than the original samples with the decrease of score within 0.1 to 0.2. However, despite the worsen results, the \textbf{Certainty} and \textbf{Class Ratio} are still well desirable, suggesting that the usability of these samples are comparable to the original ones, which declares the success of adversary.
 
 \begin{table}[htbp]
     \centering
     \caption{Statistics of Original Samples}
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        & \textbf{SF1} & \textbf{SF2} & \textbf{TM1} & \textbf{TM2} \\
+        & \textbf{SF1} & \textbf{SF2} & \textbf{TM1} & \textbf{TM2} & \textbf{Mean} \\
         \hline
-        \textbf{Mean} & 0.853889 & 0.837284 & 0.84537 & 0.837963 \\
+        \textbf{Mean} & 0.853889 & 0.837284 & 0.84537 & 0.837963 & 0.843627 \\
         \hline
-        \textbf{Definiteness} & 1.0 & 0.987654 & 1.0 & 1.0 \\
+        \textbf{Certainty} & 1.0 & 0.987654 & 1.0 & 1.0 & 0.996914 \\
         \hline
-        \textbf{Best} & 0.95 & 0.94 & 0.94 & 0.94 \\
+        \textbf{Best} & 0.95 & 0.94 & 0.94 & 0.94 & 0.9425\\
         \hline
-        \textbf{Worst} & 0.6 & 0.56 & 0.6 & 0.61 \\
+        \textbf{Worst} & 0.6 & 0.56 & 0.6 & 0.61 & 0.5925\\
         \hline
-        \textbf{Class Ratio} & 1.0 & 1.0 & 1.0 & 1.0 \\
+        \textbf{Class R.} & 1.0 & 1.0 & 1.0 & 1.0 & 1.0\\
         \hline
     \end{tabular}
     \label{tab:st_org}
@@ -273,19 +270,19 @@ As mentioned before, extracted samples are meant to be as close to the original 
 \begin{table}[htbp]
     \centering
     \caption{Statistics of Desensitized Samples}
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        & \textbf{SF1} & \textbf{SF2} & \textbf{TM1} & \textbf{TM2} \\
+        & \textbf{SF1} & \textbf{SF2} & \textbf{TM1} & \textbf{TM2} & \textbf{Mean} \\
         \hline
-        \textbf{Mean} & 0.407654 & 0.440206 & 0.460556 & 0.417078 \\
+        \textbf{Mean} & 0.407654 & 0.440206 & 0.460556 & 0.417078 & 0.431374 \\
         \hline
-        \textbf{Definiteness} & 0 & 0.022634 & 0.047325 & 0.004115 \\
+        \textbf{Certainty} & 0 & 0.022634 & 0.047325 & 0.004115 & 0.18519 \\
         \hline
-        \textbf{Best} & 0.58 & 0.64 & 0.62 & 0.62 \\
+        \textbf{Best} & 0.58 & 0.64 & 0.62 & 0.62 & 0.62 \\
         \hline
-        \textbf{Worst} & 0.22 & 0.23 & 0.27 & 0.21 \\
+        \textbf{Worst} & 0.22 & 0.23 & 0.27 & 0.21 & 0.24 \\
         \hline
-        \textbf{Class Ratio} & 0.125514 & 0.236626 & 0.195473 & 0.012346 \\
+        \textbf{Class R.} & 0.125514 & 0.236626 & 0.195473 & 0.012346 & 0.142490 \\
         \hline
     \end{tabular}
     \label{tab:st_des}
@@ -294,19 +291,19 @@ As mentioned before, extracted samples are meant to be as close to the original 
 \begin{table}[htbp]
     \centering
     \caption{Statistics of Stenography Samples}
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        & \textbf{SF1} & \textbf{SF2} & \textbf{TM1} & \textbf{TM2} \\
+        & \textbf{SF1} & \textbf{SF2} & \textbf{TM1} & \textbf{TM2} & \textbf{Mean} \\
         \hline
-        \textbf{Mean} & 0.387695 & 0.366070 & 0.412119 & 0.394115 \\
+        \textbf{Mean} & 0.387695 & 0.366070 & 0.412119 & 0.394115 & 0.390000 \\
         \hline
-        \textbf{Definiteness} & 0 & 0.002058 & 0 & 0 \\
+        \textbf{Certainty} & 0 & 0.002058 & 0 & 0 & 0.000515 \\
         \hline
-        \textbf{Best} & 0.52 & 0.61 & 0.56 & 0.56 \\
+        \textbf{Best} & 0.52 & 0.61 & 0.56 & 0.56 & 0.56 \\
         \hline
-        \textbf{Worst} & 0.21 & 0.15 & 0.17 & 0.20 \\
+        \textbf{Worst} & 0.21 & 0.15 & 0.17 & 0.20 & 0.18 \\
         \hline
-        \textbf{Class Ratio} & 0.119342 & 0.183128 & 0.1893 & 0.014403 \\
+        \textbf{Class R.} & 0.119342 & 0.183128 & 0.189300 & 0.014403 & 0.126543 \\
         \hline
     \end{tabular}
     \label{tab:st_msg}
@@ -315,19 +312,19 @@ As mentioned before, extracted samples are meant to be as close to the original 
 \begin{table}[htbp]
     \centering
     \caption{Statistics of Extracted Samples}
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        & \textbf{SF1} & \textbf{SF2} & \textbf{TM1} & \textbf{TM2} \\
+        & \textbf{SF1} & \textbf{SF2} & \textbf{TM1} & \textbf{TM2} & \textbf{Mean} \\
         \hline
-        \textbf{Mean} & 0.681975 & 0.681728 & 0.695123 & 0.702593 \\
+        \textbf{Mean} & 0.681975 & 0.681728 & 0.695123 & 0.702593 & 0.690355 \\
         \hline
-        \textbf{Definiteness} & 0.901235 & 0.864198 & 0.950617 & 0.938272 \\
+        \textbf{Certainty} & 0.901235 & 0.864198 & 0.950617 & 0.938272 & 0.913581 \\
         \hline
-        \textbf{Best} & 0.81 & 0.81 & 0.81 & 0.85 \\
+        \textbf{Best} & 0.81 & 0.81 & 0.81 & 0.85 & 0.82 \\
         \hline
-        \textbf{Worst} & 0.44 & 0.47 & 0.53 & 0.46 \\
+        \textbf{Worst} & 0.44 & 0.47 & 0.53 & 0.46 & 0.48 \\
         \hline
-        \textbf{Class Ratio} & 0.993827 & 1 & 1 & 0.993827 \\
+        \textbf{Class R.} & 0.993827 & 1 & 1 & 0.993827 & 0.996914 \\
         \hline
     \end{tabular}
     \label{tab:st_rec}
@@ -396,6 +393,7 @@ Targeting voice desensitization models based on generative NN models, we designe
     \bibitem{a20} Xiao Ai - Voice assistant software. https://xiaoai.mi.com/
     \bibitem{a21} iFly Input Method - Chinese/English input method software. https://srf.xunfei.cn
     \bibitem{a22} GBoard - Multilingual input method software. https://play.google.com/store/apps/details?id=com.google.android.inputmethod
+    \bibitem{a11a} J. Chen, J. Konrad, and P. Ishwar, “VGAN-Based Image Representation Learning for Privacy-Preserving Facial Expression Recognition,” in 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Salt Lake City, UT, USA, Jun. 2018, pp. 1651–165109. doi: 10.1109/CVPRW.2018.00207.
 \end{thebibliography}
 
 \end{document}

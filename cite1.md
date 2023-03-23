@@ -28,6 +28,10 @@ Voice desensitization (Voiceprint obfuscation) via frequency warping.
 * 10 - Hidebehind: Enjoy voice input with voiceprint unclonability and anonymity.
 * 11 - Towards privacy-preserving speech data publishing.
 
+... But with DL-based methods.
+
+* 11a - PPRL-VGAN
+
 ## Recognition (OK)
 
 Voiceprints reveal identities.
