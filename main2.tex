@@ -224,8 +224,7 @@ Each row contains statistics targeting the original identity of samples where th
     \label{samp1}
 \end{figure}
 
-What is depicted in Fig. \ref{samp1} is 4 sets of voice samples in different stages of processing, original(\textbf{ori}), desensitized(\textbf{des}), stenography(\textbf{msg}) and extracted(\textbf{rec}). From which it's noticeable that the overall performance of this adversary is reasonable.
-
+What is depicted in Fig. \ref{samp1} is 4 sets of voice samples in different stages of processing, original(\textbf{ori}), desensitized(\textbf{des}), stenography(\textbf{msg}) and extracted(\textbf{rec}). From which it's noticeable that the overall performance of this adversary is reasonable. Fig. \ref{chart_mean} displays the overall mean scores.
 \subsubsection{Original samples}
 
 According to Table I, all of the score statistics, except for the \textbf{Worst}, are close to 1, which is intended behavior for original samples. As the worst case, \textbf{Worst} is also close or greater than 0.6, which means that even this type of cases are confirmed to have the same identity as the original speaker. As a result, it's safe to confirm that both the benign model and the validation service are of desirable performance.
@@ -329,6 +328,12 @@ As mentioned before, extracted samples are meant to be as close to the original 
     \end{tabular}
     \label{tab:st_rec}
 \end{table}
+
+\begin{figure}[htbp]
+    \centerline{\includegraphics[width=8cm]{chart.jpg}}
+    \caption{Chart Of Mean Scores}
+    \label{chart_mean}
+\end{figure}
 
 \begin{table}[htbp]
     \centering

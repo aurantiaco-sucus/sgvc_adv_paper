@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.15)  23 MAR 2023 20:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.15)  23 MAR 2023 20:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -458,59 +458,64 @@ File: samp_wav.jpg Graphic file (type jpg)
 Package pdftex.def Info: samp_wav.jpg  used on input line 222.
 (pdftex.def)             Requested size: 227.62204pt x 113.23587pt.
  [4]
-Overfull \hbox (2.87979pt too wide) in paragraph at lines 273--289
+Overfull \hbox (2.87979pt too wide) in paragraph at lines 272--288
  [][] 
  []
 
 
-Overfull \hbox (2.87979pt too wide) in paragraph at lines 294--310
+Overfull \hbox (2.87979pt too wide) in paragraph at lines 293--309
  [][] 
  []
 
 
-Overfull \hbox (2.87979pt too wide) in paragraph at lines 315--331
+Overfull \hbox (2.87979pt too wide) in paragraph at lines 314--330
  [][] 
  []
 
-[5 <./samp_wav.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 387--388
+<chart.jpg, id=28, 905.3825pt x 495.8525pt>
+File: chart.jpg Graphic file (type jpg)
+<use chart.jpg>
+Package pdftex.def Info: chart.jpg  used on input line 333.
+(pdftex.def)             Requested size: 227.62204pt x 124.65889pt.
+[5 <./samp_wav.jpg> <./chart.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 392--393
 []\OT1/ptm/m/n/8 Vidizmo - Au-to-matic au-dio redac-tion soft-ware.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 387--388
+Underfull \hbox (badness 10000) in paragraph at lines 392--393
 \OT1/ptm/m/n/8 https://www.vidizmo/com/vidizmo-artificial-intelligence-
  []
 
 
-Underfull \hbox (badness 6842) in paragraph at lines 394--395
+Underfull \hbox (badness 6842) in paragraph at lines 399--400
 []\OT1/ptm/m/n/8 iFly In-put Method - Chi-nese/English in-put method soft-ware.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 395--396
+Underfull \hbox (badness 10000) in paragraph at lines 400--401
 []\OT1/ptm/m/n/8 GBoard - Mul-ti-lin-gual in-put method soft-ware.
  []
 
 
-Overfull \hbox (19.86926pt too wide) in paragraph at lines 395--396
+Overfull \hbox (19.86926pt too wide) in paragraph at lines 400--401
 \OT1/ptm/m/n/8 https://play.google.com/store/apps/details?id=com.google.android.inputmethod 
  []
 
 [6] (./main2.aux) ) 
 Here is how much of TeX's memory you used:
- 5711 strings out of 478238
- 82723 string characters out of 5850456
- 417886 words of memory out of 5000000
- 23839 multiletter control sequences out of 15000+600000
+ 5719 strings out of 478238
+ 82829 string characters out of 5850456
+ 416894 words of memory out of 5000000
+ 23846 multiletter control sequences out of 15000+600000
  515582 words of font info for 118 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,8n,62p,996b,895s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main2.pdf (6 pages, 7570205 bytes).
+Output written on main2.pdf (6 pages, 7619677 bytes).
 PDF statistics:
- 57 PDF objects out of 1000 (max. 8388607)
+ 58 PDF objects out of 1000 (max. 8388607)
  31 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

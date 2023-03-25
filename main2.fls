@@ -459,6 +459,11 @@ INPUT samp_wav.jpg
 INPUT ./samp_wav.jpg
 INPUT ./samp_wav.jpg
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmrc7t.tfm
+INPUT ./chart.jpg
+INPUT ./chart.jpg
+INPUT chart.jpg
+INPUT ./chart.jpg
+INPUT ./chart.jpg
 INPUT /usr/share/texmf-dist/fonts/vf/adobe/times/ptmrc7t.vf
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT /usr/share/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
