@@ -1,7 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1679576063 "/home/konqi/repos/sgvc_adv_paper/main2.tex" "main2.pdf" "main2" 1679576066
-  "/home/konqi/repos/sgvc_adv_paper/main2.tex" 1679576063 36657 2133742cd4ae6b4904cdd0a9f3e1b8c0 ""
-  "/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc" 1650183167 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
+["pdflatex"] 1679753663 "/home/konqi/repos/sgvc_adv_paper/main2.tex" "main2.pdf" "main2" 1679753663
+  "/home/konqi/repos/sgvc_adv_paper/main2.tex" 1679753660 38577 8249ee25744f4057a8f8d6efba10d95c ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1650183167 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1650183167 2172 fd0c924230362ff848a33632ed45dc23 ""
   "/usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1650183167 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -30,11 +29,6 @@
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm" 1650183167 1124 6c73e740cf17375f03eec0ee63599741 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1650183167 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1650183167 1120 8b7d695260f3cff42e636090a8002094 ""
-  "/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1650183167 32716 08e384dc442464e7285e891af9f45947 ""
-  "/usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1650183167 44729 811d6c62865936705a31c797a1d5dada ""
-  "/usr/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb" 1650183167 44656 0cbca70e0534538582128f6b54593cca ""
-  "/usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1650183167 46026 6dab18b61c907687b520c72847215a68 ""
-  "/usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb" 1650183167 45458 a3faba884469519614ca56ba5f6b1de1 ""
   "/usr/share/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf" 1650183167 1372 788387fea833ef5963f4c5bffe33eb89 ""
   "/usr/share/texmf-dist/fonts/vf/adobe/times/ptmbi7t.vf" 1650183167 1384 6ac0f8b839230f5d9389287365b243c0 ""
   "/usr/share/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf" 1650183167 1380 0ea3a3370054be6da6acd929ec569f06 ""
@@ -83,10 +77,7 @@
   "IEEEtran.cls" 1678957718 281957 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
   "adversary.png" 1679200844 2500367 7af1247f88a23b34112b4796f87061ea ""
   "case2v3.png" 1679200844 1470166 32cebf44b1e3a32cc14744945f934147 ""
-  "chart.jpg" 1679575760 49512 e9a765edd5967d89e50ef69d7cc9a932 ""
-  "main2.aux" 1679576066 5399 2dd3a7aa3d27c3288de91336a23b9085 "pdflatex"
-  "methodv3.png" 1679200844 3119027 0b9fd7998c3dc4bf3cbe19250fe3a7a8 ""
-  "samp_wav.jpg" 1678957718 265979 04fe5edecff679ad797a78b24069f37b ""
+  "main2.aux" 1679753663 5780 18ee0af72a926ca2ee9f99d5fffb26e1 "pdflatex"
   (generated)
   "main2.aux"
   "main2.log"

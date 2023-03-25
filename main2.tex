@@ -48,15 +48,11 @@ Voice has been one of the most important means of human-machine interaction. Wit
 
 Particularly, voiceprint analysis enabled effective association of human identity to their voices, thus led to the possibility of voice-only authentication. This type of authentication allows users to omit traditional password-based security factor, thereby avoided associated concerns like weak passwords or the lack of regular modification. Also, the need for users to recall a robust and secure sequence of password is thus eliminated.
 
-Some voice assistant apps on smart phones support voiceprint-based security measures to prevent accidental (or malicious) activation by anyone other than the smartphone owner,such as Siri from Apple Inc. and Xiao Ai from Xiaomi Inc.\cite{a19, a20}. Also, there are many voice enabled IMEs for various kinds of devices, such as iFly Input Method from iFlyTek and GBoard from Google, Inc.\cite{a21, a22}.
-
-Also in recent years, deep learning and deep learning-based speech synthesis techniques have made great progress. With state of the art techniques, humans can not easily distinguish the speech sequences produced by the generation-oriented services, and even the human ear cannot recognize the most subtle features in the speech sequences provided by the discrimination-oriented services.\cite{a12}.
+Some voice-based services use voiceprint to prevent unwanted activations,such as Siri from Apple Inc. and Xiao Ai from Xiaomi Inc.\cite{a19, a20}. Also, there are many voice enabled IMEs for various kinds of devices, such as iFly Input Method from iFlyTek and GBoard from Google, Inc.\cite{a21, a22}. Also deep learning-based speech synthesis have made great progress. With state of the art techniques, it's not easy to distinguish the speech sequences produced by the generation-oriented services.\cite{a12}.
 
 However, such advancement in other hand reminds people of the feature-rich nature of raw voice recordings and the vulnerabilities born from them\cite{a6, a7}. These sequences contains enormous amount of sensitive personal information, and if they are processed by a untrusted party, the likelihood of data exposure and leaking is high.
 
-The decisive solution to this problem is to perform the entire voice recognition workflow locally on user's device (i.e. from recording to recognition). In this way, the majority of security risk is thus eliminated because only the unidentifiable results are exported and sent to the remote servers.
-
-However, these services are unlikely to be lightweight. Instead, they are more likely to consume great amount of computational power, thus rendering the idea of executing them locally not feasible. Therefore, it's unavoidable that certain parts of workflow of such services will have to be done remotely, and potentially cause security issues. For example, Xiaomi claims that Xiao Ai can "do most of the training and evaluation locally" \cite{a20}.
+The decisive solution to this problem would involve performing the entire process locally on user's device. However, such services would not likely to lightweight enough to be able to operated in this way. It's unavoidable that certain parts of workflow of such services will have to be done remotely, and potentially cause security issues. For example, Xiaomi claims that Xiao Ai can "do most of the training and evaluation locally" \cite{a20}.
 
 \begin{figure}[htbp]
     \centerline{\includegraphics[width=8cm]{case2v3.png}}
@@ -66,13 +62,17 @@ However, these services are unlikely to be lightweight. Instead, they are more l
 
 Ideally, an honest service provider would not use the raw recordings for anything other than the intended purpose. However, in reality this is not likely to be true for every single service provider. Such additional data, as mentioned before, may be used maliciously to identify the speaker and cause the exposure of user identity and other dangers as depicted in Fig. \ref{case2}. To alleviate such problem, many speech desensitization algorithms are being developed.
 
-Conventional voice desensitization methods are believed to focus on two radically different areas: Content and Voiceprint.
+Conventional voice desensitization methods are believed to focus on two radically different areas: Content and Voiceprint. However, either areas show a certain degree of incompleteness and insufficient alleviation of potential adversaries.
 
 Those focus on content desensitization employ methodologies to remove or replace voice segments that are detected to contain sensitive information. There are publicly available APIs\cite{a13} and dedicated softwares for this purpose\cite{a14}. As a safe method or the last resort, some may employ manual audio editing to achieve this goal, as there exists a number of softwares sufficient for this use case\cite{a15}.
 
+However, such content removal algoritms are likely to involve certain pattern matching process on the textual content of these voice sequences, which is vulnerable to a number of cases where the actual sensitive content is obfuscated by environmental noises, not clearly spoken or even in different languages.
+
 Other methods may apply distortion on entire voice sequences. Deep learning based methodologies are employed in both types of methods along with traditional algorithms\cite{a9, a10, a11}.
 
-It's notable that many approaches to bring privacy to remotely handled voice recordings combine these 2 ideas to provide better performance. There exists a number of active researches on this subject\cite{a8}.
+These methods are more robust in terms of mitigating voiceprint privacy concerns. However, they are likely to suffer from the potential failure to cleanly remove the relationship between the transformed and the original sequences. That is, there is still relevent information in the processed data that can be picked up by a well-designed recognition algorithm. Moreover, the sparsity of relevent information in voice signals opens up possibilities for a vast number of potential attacking methods.
+
+It's notable that many approaches to bring privacy to remotely handled voice recordings combine these 2 ideas to provide better performance. There exists a number of active researches on this subject\cite{a8}. In this paper, we mainly focus on the vulnerabilities of voiceprint-handling desensitization models.
 
 \begin{figure}[htbp]
     \centerline{\includegraphics[width=8cm]{adversary.png}}
@@ -80,7 +80,7 @@ It's notable that many approaches to bring privacy to remotely handled voice rec
     \label{case4}
 \end{figure}
 
-It's unlikely to guarantee the absence of sensitive data in desensitized voices, primarily due to the limitataions of current desensitization methods. However, there exists a case not being commonly considered. The desensitization method itself could also be modified to contain adversarial features without excess degradation of performance\cite{a1}, as depicted in Fig. \ref{case4}. In this paper, we target this particular case and perform attack on a desensitization model.
+It's unlikely to guarantee the absence of sensitive data in desensitized voices as just mentioned, which created its attack surface. Particularly, the desensitization method itself could also be modified to be able to embed additional information of original voice sequences in processed ones in different representations without excess degradation of performance\cite{a1}, as depicted in Fig. \ref{case4}. In this paper, we target this particular case and perform attack on a desensitization model.
 
 In summary, this paper makes the following contributions.
 
@@ -99,10 +99,11 @@ The rest of the paper consists related works, an detailed explanation of the pro
 
 \subsection{Adversary against desensitization}
 
-[PPRL-VGAN, Subverting]
 There are researches on attacking privacy-preserving data transformation models. Some employ similar techniques that attempt to embed certain amount of data in sanitized data with modification to original deep-learning models and recover the original data after the exposure of sanitized data in public by victims. 
 
-An notable instance among them works with images, targeting a privacy-preserving facial expression recognition algorithm, PPRL-VGAN. It sets up the attack with weak assumptions of user, who have white-box access to the attacked model. In order to achieve the adversary, its adversarial parts are embedded in the original model as additional layers or modification of existing layers, thus avoiding user's discovery.\cite{a11a}
+An notable instance among them works with images, targeting a privacy-preserving facial expression recognition algorithm, PPRL-VGAN. It sets up the attack with weak assumptions of user, who have white-box access to the attacked model. In order to achieve the adversary, its adversarial parts are embedded in the original model as additional layers or modification of existing layers, thus avoiding user's discovery.\cite{pprl-vgan,subvert}
+
+However, there are much fewer works that propose adversaries against voice privacy preservation algorithms than facial image ones, even if the former is much more commonly adopted and deployed in production environment. The reason could involve the common misconception of voice-related technologies being mature or, even, complete.
 
 \subsection{Voiceprint obfuscation}
 
@@ -112,9 +113,23 @@ Numerous research projects have been conducted for the preservation of voice pri
 
 Those employ frequency-domain analysis use various preprocessing techniques to deduce certain features from the raw voice sequences. Then a statistical formula is applied to obfuscate these frequency features. Reversing the preprocessing steps previously applied, the transformed voice sequences is obtained.\cite{a9, a10, a11}
 
+These methods are more likely to suffer from the issues mentioned before that they are not able to complete cut the connections to the original voice sequences or erasing the relevent features, thus they are not further discussed in this paper.
+
 \subsubsection{Deep learning based methods}
 
 There also exhibits a number of solutions utilizing neural networks. These methods are more likely to employ less sophisticated preprocessing means and focus on increasing the complexity of CNNs. These methods benefit from recent improvements made on NN-based content generation algorithms and transformer frameworks, such as the Diffusion models commonly used with graphics data.\cite{a8}
+
+However, also as mentioned before, these models are at times likely to be vulnerable to adversaries that utilize the non-significant part of a voice sequence, namely stenography algorithms. Lacking dedicated mitigation of such issues, it's possible to retain the crucial private data in a different form without user's notice.
+
+\section{Problem statement, Ver. II}
+
+\subsection{User}
+
+User chooses to utilize attacker's voice-enabled service for its need. 
+
+\subsection{Attacker}
+
+Attacker's goal is to acquire the identities (i.e. voiceprints) of users by setting up a voice-enabled Internet service that acquires and processes user's voice sequences. The most straightforward
 
 \section{Problem statement}
 
@@ -398,7 +413,8 @@ Targeting voice desensitization models based on generative NN models, we designe
     \bibitem{a20} Xiao Ai - Voice assistant software. https://xiaoai.mi.com/
     \bibitem{a21} iFly Input Method - Chinese/English input method software. https://srf.xunfei.cn
     \bibitem{a22} GBoard - Multilingual input method software. https://play.google.com/store/apps/details?id=com.google.android.inputmethod
-    \bibitem{a11a} J. Chen, J. Konrad, and P. Ishwar, “VGAN-Based Image Representation Learning for Privacy-Preserving Facial Expression Recognition,” in 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Salt Lake City, UT, USA, Jun. 2018, pp. 1651–165109. doi: 10.1109/CVPRW.2018.00207.
+    \bibitem{pprl-vgan} J. Chen, J. Konrad, and P. Ishwar, “VGAN-Based Image Representation Learning for Privacy-Preserving Facial Expression Recognition,” in 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Salt Lake City, UT, USA, Jun. 2018, pp. 1651–165109. doi: 10.1109/CVPRW.2018.00207.
+    \bibitem{subvert} K. Liu, B. Tan, and S. Garg, “Subverting Privacy-Preserving GANs: Hiding Secrets in Sanitized Images,” AAAI, vol. 35, no. 17, pp. 14849–14856, May 2021, doi: 10.1609/aaai.v35i17.17743.
 \end{thebibliography}
 
 \end{document}
