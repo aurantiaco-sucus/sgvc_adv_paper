@@ -121,15 +121,25 @@ There also exhibits a number of solutions utilizing neural networks. These metho
 
 However, also as mentioned before, these models are at times likely to be vulnerable to adversaries that utilize the non-significant part of a voice sequence, namely stenography algorithms. Lacking dedicated mitigation of such issues, it's possible to retain the crucial private data in a different form without user's notice.
 
-\section{Problem statement, Ver. II}
+\section{Problem statement, Ver. II Draft A}
 
 \subsection{User}
 
-User chooses to utilize attacker's voice-enabled service for its need. 
+User chooses to utilize attacker's web service for its demand.
+
+During the usage of this service, the raw voice sequences are first recorded on users' devices. Then the sequences are processed in order to remove association with the speaker, also locally on users' device. Finally, the desensitized voice sequences are sent over the network and remotely processed for servicing purposes.
+
+We consider the desensitization service, wrapped in a proprietary web service, a black-box to the users. However, users have full access to the raw voice sequences that serve as the input to the service and the final sequences that are sent over the air.
+
+Thus, users are able to verify the final results, but can not verify the web service (i.e. desensitization mean) itself. If the program is sending raw voice sequences, users can be informed either by themselves or potentially by their security measures, such as firewall softwares.
 
 \subsection{Attacker}
 
-Attacker's goal is to acquire the identities (i.e. voiceprints) of users by setting up a voice-enabled Internet service that acquires and processes user's voice sequences. The most straightforward
+Attacker's goal is to acquire the identities (i.e. voiceprints) of users by setting up a voice-enabled Internet service that acquires and processes user's voice sequences.
+
+As just mentioned, users have full access to processed sequences. That is, simply sending the raw data to the servers is not viable since it arises suspicion of users (or users' security services). In this case, the attacker needs a novel method to include the features of raw recordings into the processed voice sequences while still providing convincing desensitization results that nobody would question about.
+
+Attacker has access to one or more desensitization, either full access of source code (i.e. white-box) or only access to its interfaces (i.e. black-box). Under normal circumstances oursourced models 
 
 \section{Problem statement}
 
