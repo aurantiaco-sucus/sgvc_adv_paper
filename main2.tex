@@ -174,9 +174,11 @@ In order to complete such workflow, three distinct models are needed. They are e
 
 \subsection{Benign model}
 
-As two slightly different scenarios, the benign model could be either a in-house solution designed by the attacker itself (and may be even trained with adversarial models) or a production model with predefined weights acquired from a third-party organization or the public. The source of benign model theoretically shows no significant difference in terms of the overall structure of the adversary workflow we designed, but the desensitization performance of different models may have an impact on the quality of stenography-added voices and recovered ones. For our experiments we used an StarGAN-VC\cite{a3} based model, the StarGanVCDialectConversion project hosted by user "Didnelpsun" on GitHub\cite{a2} in particular.
+As mentioned before, this model could be either designed by the attacker or outsourced from the public. The source of benign model theoretically shows no significant difference in terms of the overall structure of the adversary workflow we designed, but the performance of different models may have an impact on the quality of stenography.
 
-Specifically, this specific StarGAN-VC implementation employs a transformer-based, multi-layered architecture for its generation model, which closely resemble the approach mention in the original StarGAN-VC publication. There are 5 sets of layers in both the encoder and decoder with each set of layer consisting of two convolution layers and two instance normalization layers. It's notable that this particular model is not strictly designed for desensitization, but we consider the fact that this model is capable to erase the original identity from the voice sequence and give it another one to be the ability to desensitize.
+\subsubsection{Third-Party Services}
+
+If the model is obtained from third-parties
 
 \subsection{Stenography model}
 
