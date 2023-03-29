@@ -119,33 +119,31 @@ There also exhibits a number of solutions utilizing neural networks. These metho
 
 However, also as mentioned before, these models are at times likely to be vulnerable to adversaries that utilize the non-significant part of a voice sequence, namely stenography algorithms. Lacking dedicated mitigation of such issues, it's possible to retain the crucial private data in a different form without user's notice.
 
-\section{Problem statement}
+\section{Problem statement and assumption}
 
-\begin{figure}[htbp]
-    \centerline{\includegraphics[width=8cm]{methodv3.png}}
-    \caption{The adversarial workflow}
-    \label{wflow}
-\end{figure}
+\subsection{Scenario}
 
-\subsection{User's Scenario}
+In our scenario for this workflow, there exists two contradicting parties, users and the attacker.
 
-User chooses to utilize attacker's web service for its demand.
+\subsubsection{Users}
 
-During the usage of this service, the raw voice sequences are first recorded on users' devices. Then the sequences are processed in order to remove association with the speaker, also locally on users' device. Finally, the desensitized voice sequences are sent over the network and remotely processed for servicing purposes.
+To users, the entire service is a black-box where they provide their raw voice sequences in exchange for services. Users can only verify the processed data that is actually sent to the remote servers.
 
-We consider the desensitization service, wrapped in a proprietary web service, a black-box to the users. However, users have full access to the raw voice sequences that serve as the input to the service and the final sequences that are sent over the air.
+\subsubsection{Attacker}
 
-Thus, users are able to verify the final results, but can not verify the web service (i.e. desensitization mean) itself. If the program is sending raw voice sequences, users can be informed either by themselves or potentially by their security measures, such as firewall softwares.
+Attacker has access to a desensitization model to attack, either as a white-box with availability of source code or as a black-box with only public APIs. It want to modify this model or use another model as an add-in to embed features of original voice.
 
-\subsection{Attacker's Scenario}
+The only part where the attacker has access to raw sequences is the local program on user's device. Also, attacker has to ensure adequate difference between the raw sequences and the data sent to servers, which implies the recovery of original recordings is done remotely.
 
-Attacker's goal is to acquire the identities (i.e. voiceprints) of users by setting up a voice-enabled Internet service that acquires and processes user's voice sequences.
+\subsection{Problem statement}
 
-As just mentioned, users have full access to processed sequences. That is, simply sending the raw data to the servers is not viable since it arises suspicion of users (or users' security services). In this case, the attacker needs a novel method to include the features of raw recordings into the processed voice sequences while still providing convincing desensitization results that nobody would question about.
+We consider the primary problem of our adversary generalizes to a specialized form of stenography where the desensitized sequence, as the carrier, carries the original counterpart the message. In this situation, the carrier and message share the same data type, format and textual content.
 
-Attacker has access to one or more desensitization models, with either full access of source code (i.e. white-box) or only access to its interfaces (i.e. black-box). Under normal circumstances outsourced models are black-boxes that only APIs are provided and an in-house solution is more likely to be a white-box that is available for fine-tuning.
+\subsection{Assumption}
 
-\subsection{Required Models}
+As suggested before, the attacker has to use a form of stenography because it not only can not send the raw recordings over the network, but also may not have white-box access to the benign model to train or adjust for its purposes.
+
+\subsection{Adversary model}
 
 In order to complete such workflow, three distinct models are needed. They are explained in detail below, but they can also be summarized as following:
 
