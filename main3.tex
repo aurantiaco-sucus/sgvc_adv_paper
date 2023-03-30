@@ -157,15 +157,18 @@ In order to complete such workflow, three distinct models are needed. They are e
 
 \subsection{Benign model}
 
-As suggested before, this model can either be in-house or outsourced. The source of benign model theoretically shows no significant difference in terms of the structure of adversary workflow we designed, but the performance differences may have an impact on the final results.
-
 If the model is not outsourced, in which case the attacker can simply utilize the corresponding interfaces (HTTP APIs, for example), it need to train its own benign model. In order to demonstrate this particular case, we employ StarGAN-VC\cite{a3}, an non-parallel many-to-many voice conversion solution.
 
-As a GAN-based model, StarGAN-VC's generator primarily optimizes for the following goal:
+As a GAN-based model, the adversarial loss function can be described as the following equation:
 
 \begin{equation}
-    \mathcal{L}_G
+    \label{eqn:adv_loss}
+    \mathcal{L}_A = \mathbb{E}_{x}[\log D_S(x)] + \mathbb{E}_{x, c}[\log D_S(1 - G(x, c))]
 \end{equation}
+
+Here $G(x, c)$ means the generated voice sequence from the authentic voice sample $x$ and the identity (i.e. label) of target speaker $c$. And $D_S(x)$ denotes the probability distribution provided by the discriminator, which predicts the authenticity of its input. Generator optimizes for the minimum of this value while the Discriminator optimizes for the maximum.
+
+As in this particular use case, the attacker wants to optimize 
 
 \subsection{Stenography model}
 
