@@ -119,7 +119,7 @@ There also exhibits a number of solutions utilizing neural networks. These metho
 
 However, also as mentioned before, these models are at times likely to be vulnerable to adversaries that utilize the non-significant part of a voice sequence, namely stenography algorithms. Lacking dedicated mitigation of such issues, it's possible to retain the crucial private data in a different form without user's notice.
 
-\section{Problem statement and assumption}
+\section{Problem statement}
 
 \subsection{Scenario}
 
@@ -135,7 +135,7 @@ Attacker has access to a desensitization model to attack, either as a white-box 
 
 The only part where the attacker has access to raw sequences is the local program on user's device. Also, attacker has to ensure adequate difference between the raw sequences and the data sent to servers, which implies the recovery of original recordings is done remotely.
 
-\subsection{Problem statement}
+\subsubsection{Problem}
 
 We consider the primary problem of our adversary generalizes to a specialized form of stenography where the desensitized sequence, as the carrier, carries the original counterpart the message. In this situation, the carrier and message share the same data type, format and textual content.
 
@@ -157,7 +157,15 @@ In order to complete such workflow, three distinct models are needed. They are e
 
 \subsection{Benign model}
 
-As mentioned before, this model can either be in-house or outsourced. The source of benign model theoretically shows no significant difference in terms of the overall structure of the adversary workflow we designed, but the desensitization performance of different models may have an impact on the quality of stenography-added voices and recovered ones. 
+As suggested before, this model can either be in-house or outsourced. The source of benign model theoretically shows no significant difference in terms of the structure of adversary workflow we designed, but the performance differences may have an impact on the final results.
+
+If the model is not outsourced, in which case the attacker can simply utilize the corresponding interfaces (HTTP APIs, for example), it need to train its own benign model. In order to demonstrate this particular case, we employ StarGAN-VC\cite{a3}, an non-parallel many-to-many voice conversion solution.
+
+As a GAN-based model, StarGAN-VC's generator primarily optimizes for the following goal:
+
+\begin{equation}
+    \mathcal{L}_G
+\end{equation}
 
 \subsection{Stenography model}
 
