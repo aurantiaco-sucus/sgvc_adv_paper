@@ -168,7 +168,9 @@ As a GAN-based model, the adversarial loss function can be described as the foll
 
 Here $G(x, c)$ means the generated voice sequence from the authentic voice sample $x$ and the identity (i.e. label) of target speaker $c$. And $D_S(x)$ denotes the probability distribution provided by the discriminator, which predicts the authenticity of its input. Generator optimizes for the minimum of this value while the Discriminator optimizes for the maximum.
 
-As in this particular use case, the attacker wants to optimize 
+In this particular use case, the attacker wants to optimize for the maximum difference between the original and processed voice samples in terms of speaker's identity in order to promote its performance.
+
+In practice, the exact implementation we employed is StarGanVCDialectConversion, which is publicly available.
 
 \subsection{Stenography model}
 
@@ -202,7 +204,7 @@ As mentioned before, we use StarGANVCDialectConversion, a StarGAN-VC implementat
 \subsection{Training}
 
 We trained the models locally on the server. In order to streamline the experiment process while preserving the most accurate possible results, we avoid excess modifications to the models. Particularly, the benign model is trained to 200000 steps (~60 epochs), as the default settings. Similar approach is applied on the stenography model, that it is trained to preferred settings by the model authors.
-
+model
 \subsection{Generation}
 
 It's necessary to clarify that, in order to achieve the maximum quantity of samples and prevent the quality of benign model from having excess impact on our overall process, we use the whole VCC2016 training set as the original voices. Each identity contains 162 samples, and we get 648 samples in total.
