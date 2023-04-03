@@ -64,11 +64,11 @@ Conventional voice desensitization methods are believed to focus on two radicall
 
 Those focus on content desensitization employ methodologies to remove or replace voice segments that are detected to contain sensitive information. There are publicly available APIs\cite{a13} and dedicated softwares for this purpose\cite{a14}. As a safe method or the last resort, some may employ manual audio editing to achieve this goal, as there exists a number of softwares sufficient for this use case\cite{a15}.
 
-However, such content removal algoritms are likely to involve certain pattern matching process on the textual content of these voice sequences, which is vulnerable to a number of cases where the actual sensitive content is obfuscated by environmental noises, not clearly spoken or even in different languages.
+However, such content removal algorithms are likely to involve certain pattern matching process on the textual content of these voice sequences, which is vulnerable to a number of cases where the actual sensitive content is obfuscated by environmental noises, not clearly spoken or even in different languages.
 
 Other methods may apply distortion on entire voice sequences. Deep learning based methodologies are employed in both types of methods along with traditional algorithms\cite{a9, a10, a11}.
 
-These methods are more robust in terms of mitigating voiceprint privacy concerns. However, they are likely to suffer from the potential failure to cleanly remove the relationship between the transformed and the original sequences. That is, there is still relevent information in the processed data that can be picked up by a well-designed recognition algorithm. Moreover, the sparsity of relevent information in voice signals opens up possibilities for a vast number of potential attacking methods.
+These methods are more robust in terms of mitigating voiceprint privacy concerns. However, they are likely to suffer from the potential failure to cleanly remove the relationship between the transformed and the original sequences. That is, there is still relevant information in the processed data that can be picked up by a well-designed recognition algorithm. Moreover, the sparsity of relevant information in voice signals opens up possibilities for a vast number of potential attacking methods.
 
 It's notable that many approaches to bring privacy to remotely handled voice recordings combine these 2 ideas to provide better performance. There exists a number of active researches on this subject\cite{a8}. In this paper, we mainly focus on the vulnerabilities of voiceprint-handling desensitization models.
 
@@ -111,7 +111,7 @@ Numerous research projects have been conducted for the preservation of voice pri
 
 Those employ frequency-domain analysis use various preprocessing techniques to deduce certain features from the raw voice sequences. Then a statistical formula is applied to obfuscate these frequency features. Reversing the preprocessing steps previously applied, the transformed voice sequences is obtained.\cite{a9, a10, a11}
 
-These methods are more likely to suffer from the issues mentioned before that they are not able to complete cut the connections to the original voice sequences or erasing the relevent features, thus they are not further discussed in this paper.
+These methods are more likely to suffer from the issues mentioned before that they are not able to complete cut the connections to the original voice sequences or erasing the relevant features, thus they are not further discussed in this paper.
 
 \subsubsection{Deep learning based methods}
 
@@ -170,28 +170,36 @@ Here $G(x, c)$ means the generated voice sequence from the authentic voice sampl
 
 In this particular use case, the attacker wants to optimize for the maximum difference between the original and processed voice samples in terms of speaker's identity in order to promote its performance.
 
-The actual implementation of StarGAN-VC we employed comprises
+The actual implementation of StarGAN-VC we employed is StarGANVCDialectConversion, in which the generator model resembles the original StarGAN with 5 of down-scaling layers and 4 of upscaling layers along with another de-convolution layer. Each down-scaling layer comprises 2 pairs of convolution layers and batch norm ones, with a trailing sigmoid operation. The same scheme applies to the upscaling ones.
+
+In practice, an attacker would want to train this model with an well organized set of voice samples consisting of sets of voices where each of them consists sequences where different speakers speak the same textual content. Either by crowdsourcing human-produced sequences or leveraging voice generation services, this is obtainable.
+
+To maximize the performance of our model while keeping the workflow straightforward, we chose an well known voice transformation oriented dataset, VCC 2016. In this dataset there are 10 speakers including 5 male and 5 female ones. Each speaker has the same number of voice samples (162 for training and 54 for evaluation) where the corresponding textual content of each one across every speaker remains the same. Each voice sample are down-sampled to 16 KHz from the DAPS dataset. However, their length and clarity is not guaranteed to be the same.
+
+Our model is trained according the recommendations of implementation authors, where the total steps trained is 200000 (approx. 60 epochs). At this point, the model shows a degree of generalization ability. It's notable that the generation quality of this model may not be adequate in practice, however for our experiment purpose we consider it usable.
 
 \subsection{Stenography model}
 
-The stenography model works as an add-on of the benign model to embed information of original voice into clean product of the benign model. It's notable that, users of this adversarial product are not intended to notice the presence of such stenography model that attempts to tamper the clean output.
+The stenography model works as an add-on of the benign model. This model aims to embed information of original recordings in the processed ones while preventing the potential degradation or increase of similarity to the original sequences.
 
-Details are discussed in the following sections. However, the characteristics a stenography model needed to be adequate for this purpose can be summarized as follows:
+We consider the goal of such model able to be described by the the following equation:
 
-\begin{itemize}
-    \item \textbf{Integration with benign model}: The stenography model should not alienate the adversary workflow by requiring additional data, other than what is provided inside the black-box (the original voice sample and the desensitized one) or be able to be detected despite being inside the black-box.
-    \item \textbf{Sufficient performance}: The stenography model should embed sufficient information for the extraction model to recover the original voice sequence, thus ensuring the possibility of the adversary. But it should also avoid excess modifications applied to the samples to reduce suspicion.
-\end{itemize}
+\begin{equation}
+    \label{eqn:st_q_loss}
+    \mathcal{L}_Q = D( M , \hat{M} ) + k D( C , \hat{C} )
+\end{equation}
 
-To prevent users from discovering the stenography logic, one can rely on the black-box nature of such type of desensitization services. However, users might have concern over potential security risks from a non-transparent process of desensitization.
+Here $M$ represents the message to be carried while $C$ is the carrier. $\hat{C}$ is the carrier after stenography and $\hat{M}$ is the extracted message. The function $D$ symbolizes the statistical distance between its two parameters. Moreover, $k$ is a super-parameter that depicts the stealthiness of such algorithm. Thus stenography algorithms maximize such value to achieve best message quality and least modification to the carrier.
 
-An robust solution to this problem is to embed the stenography model into the benign one, as an additional set of layers for "post-processing", thus achieve the integration. In this way, the presence of stenography model could no longer be easily detected without dedicated research of behavior or even the source code and weights.
+In our case, the carriers and messages are audio signals. More specifically, they are voice sequences. An attacker would design, or employ, a voice-optimized stenography algorithm. 
 
-The benign desensitization model attempts to replace a certain amount of features of original voices with features that does not belong to the owner of them while the stenography model attempts to embed a certain amount of information of original features into the already-desensitized voices. It's very likely that during this process the overall audio quality will experience degradation to a certain degree. For this reason, the stenography model chosen for this purpose should be adequately powerful to avoid excessive modification to the voice output.
+Here we employed the Hide and Speak algorithm where novel approaches are created to improve the performance of reconstruction of time-domain message signal from carrier embedded with it. This implementation exhibits transformer structure for both the embedding process and the extraction process, thus avoided using sub-optimal algorithms for signal reconstruction such as Griffin Lim.
+
+Same as the benign model, this model is trained with the default preferences. The trained model shows versatile results where modifications are indistinguishable by human ears.
 
 \subsection{Extraction model}
 
-The extraction model accepts the final product from the combination of benign and stenography model, which is likely to be the voices user trusted to be desensitized, and attempts recovery of original voice from it.
+The extraction model accepts the sequences embedded with features of their original counterparts. Partially as the reverse process of the stenography model, the goal of such model is to improve the quality of 
 
 \section{Experiment}
 
@@ -230,7 +238,7 @@ Each row contains statistics targeting the original identity of samples where th
     \item \textbf{Certainty} - Ratio of scores being greater than 0.6, which means the sample can be confirmed to bear the same speaker as the original one. Higher values mean values are more definite.
     \item \textbf{Best} - Best value of scores.
     \item \textbf{Worst} - Worst value of scores. Closer value with \textbf{Best} means better stability.
-    \item \textbf{Class Ratio (Abbrivated as "Class R.")} - Ratio of samples being classified into its original speaker, i.e. have the highest score being the original speaker, as mentioned before. Higher values mean higher probability an generic classification model will think the samples have the same identity of the original speakers.
+    \item \textbf{Class Ratio (Abbreviated as "Class R.")} - Ratio of samples being classified into its original speaker, i.e. have the highest score being the original speaker, as mentioned before. Higher values mean higher probability an generic classification model will think the samples have the same identity of the original speakers.
 \end{itemize}
 
 \subsection{Analysis}
