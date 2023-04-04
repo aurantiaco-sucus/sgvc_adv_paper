@@ -143,9 +143,15 @@ We consider the primary problem of our adversary generalizes to a specialized fo
 
 As suggested before, the attacker has to use a form of stenography because it not only can not send the raw recordings over the network, but also may not have white-box access to the benign model to train or adjust for its purposes.
 
+\begin{figure}[htbp]
+    \centerline{\includegraphics[width=8cm]{methodv3.png}}
+    \caption{The complete adversary workflow}
+    \label{method}
+\end{figure}
+
 \subsection{Adversary model}
 
-In order to complete such workflow, three distinct models are needed. They are explained in detail below, but they can also be summarized as following:
+In order to complete such workflow, as described in Fig. \ref{method}, 3 distinct models are needed. They are explained in detail below, but they can also be summarized as following:
 
 \begin{itemize}
     \item A \textbf{Benign model} to be attacked by. This model generates desensitized voice sequences that users would normally want to get from this black-box.
@@ -262,9 +268,7 @@ The type of recording played, which is one variant in the tuple mentioned in our
 
 \textbf{TODO}
 
-\section{Results}
-
-\subsection{Analysis}
+\subsection{Results}
 
 \begin{figure}[htbp]
     \centerline{\includegraphics[width=8cm]{samp_wav.jpg}}
