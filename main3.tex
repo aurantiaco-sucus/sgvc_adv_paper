@@ -8,6 +8,7 @@
 \usepackage{CJKutf8}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{pgfplots}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -267,8 +268,8 @@ As for the ABX test, we derive the following statistics from our records in orde
 \begin{itemize}
     \item \textbf{Degradation (Carrier)} - Decrease of correct rate of detecting the carrier's identity from desensitized samples to stenography ones.
     \item \textbf{Degradation (Message)} - Decrease of correct rate from original samples to extracted ones.
-    \item \textbf{Transform (Target)} - Rate of participants recognizing the target identity of transformed samples (desensitized and stenography ones).
-    \item \textbf{Transform (Phantom)} - Rate of recognizing the \textbf{original} identity of samples just mentioned.
+    \item \textbf{Conversion (Target)} - Rate of participants recognizing the target identity of converted samples (desensitized and stenography ones).
+    \item \textbf{Conversion (Phantom)} - Rate of recognizing the \textbf{original} identity of samples just mentioned.
     \item \textbf{Gender (Vague)} - Rate of choosing a identity of the same gender as the identity of a sample.
     \item \textbf{Gender (Exact)} - Rate of choosing the exact identity of a sample.
 \end{itemize}
@@ -387,7 +388,35 @@ As mentioned before, extracted samples are meant to be as close to the original 
 \end{table}
 
 \begin{figure}[htbp]
-    \centerline{\includegraphics[width=8cm]{chart.jpg}}
+    \centerline{
+        \begin{tikzpicture}[scale=0.75]
+            \begin{axis}[
+              ybar,
+              bar width = 5pt,
+              x axis line style = { opacity = 0 },
+              xtick = data,
+              symbolic x coords = {Original, Desensitized, Stenography, Extracted},
+              legend style={at={(0.5,-0.15)}, anchor=north,legend columns=-1},
+              enlarge x limits = 0.1,
+              ymin = 0,
+              ymax = 1
+            ]
+            \addplot coordinates {
+                (Original,0.853889)(Desensitized,0.407654)(Stenography,0.387695)(Extracted,0.681975)
+            };
+            \addplot coordinates {
+                (Original,0.837284)(Desensitized,0.440206)(Stenography,0.366070)(Extracted,0.681728)
+            };
+            \addplot coordinates {
+                (Original,0.84537)(Desensitized,0.460556)(Stenography,0.412119)(Extracted,0.695123)
+            };
+            \addplot coordinates {
+                (Original,0.837963)(Desensitized,0.417078)(Stenography,0.394115)(Extracted,0.702593)
+            };
+            \legend{SF1,SF2,TM1,TM2}
+            \end{axis}
+          \end{tikzpicture}
+    }
     \caption{Chart Of Mean Scores}
     \label{chart_mean}
 \end{figure}
@@ -411,6 +440,30 @@ As mentioned before, extracted samples are meant to be as close to the original 
         \hline
     \end{tabular}
 \end{table}
+
+\begin{figure}[htbp]
+    \centerline{
+        \begin{tikzpicture}[scale=0.75]\begin{axis}[xlabel={Carrier},ylabel={Message},]\addplot[scatter,only marks] coordinates {(0.1457,-0.0197)(-0.2045,0.0000)(0.0308,-0.0500)(0.0404,-0.1429)(0.0000,0.0000)(0.2500,-0.1905)(-0.1587,-0.0202)(-0.0261,0.0000)(0.3333,0.0000)(-0.0714,0.0000)(0.2597,0.0078)(0.1471,0.0000)(0.0890,0.0000)(0.0400,-0.4074)(-0.1288,0.0000)(0.0714,-0.4485)(0.2600,-0.0455)(0.0000,0.0000)(0.0714,-0.2000)(0.0588,-0.0588)};\end{axis}\end{tikzpicture}
+    }
+    \caption{Scatter of Content Degradation}
+    \label{fig:degradation}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centerline{
+        \begin{tikzpicture}[scale=0.75]\begin{axis}[xlabel={Target},ylabel={Phantom},]\addplot[scatter,only marks] coordinates {(0.1169,0.0649)(0.6316,0.1053)(0.2143,0.0714)(0.2000,0.0500)(0.3333,0.0833)(0.0833,0.0000)(0.3750,0.0000)(0.5385,0.0769)(0.6667,0.0833)(0.4643,0.0714)(0.4444,0.0556)(0.4194,0.2903)(0.5227,0.2045)(0.0200,0.0200)(0.4783,0.0000)(0.0435,0.0000)(0.3333,0.1026)(0.5185,0.1111)(0.0263,0.0263)(0.3235,0.3235)};\end{axis}\end{tikzpicture}
+    }
+    \caption{Scatter of Conversion Performance}
+    \label{fig:transform}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centerline{
+        \begin{tikzpicture}[scale=0.75]\begin{axis}[xlabel={Vague},ylabel={Exact},]\addplot[scatter,only marks] coordinates {(0.7000,0.4333)(0.7183,0.5070)(0.6923,0.3654)(0.7000,0.5600)(0.4000,0.3000)(0.5400,0.3000)(0.6275,0.3529)(0.7317,0.4390)(0.5667,0.3333)(0.6757,0.3378)(0.5366,0.2927)(0.2321,0.1250)(0.6543,0.4815)(0.7324,0.5775)(0.6111,0.3056)(0.4366,0.3944)(0.6400,0.3800)(0.6300,0.3800)(0.4000,0.0800)(0.6400,0.4000)};\end{axis}\end{tikzpicture}
+    }
+    \caption{Scatter of Gender Recognition}
+    \label{fig:gender}
+\end{figure}
 
 \section{Future Work}
 
