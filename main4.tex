@@ -39,10 +39,24 @@ Voice data is broadly acquired and utilized by consumer services. In order to pr
     privacy, voice, desensitization, stenography
 \end{IEEEkeywords}
 
-\label{intro}
-\section{Introduction Ver. III}
+\label{seg:intro}
+\section{Introduction}
 
-With the unprecedented availability of large, formulated datasets and processing acceleration solutions, methods based on deep learning technologies has been enabled for a broad range of applications. However, what is also unprecedented is the ubiquity of such applications and services that raises novel privacy concerns. [CITE: APPLICATIONS] Provided the involvement of services that heavily use such personal data, recorded voice sequences, one has to take care to collect relevant data for services without inadvertently leaking sensitive information. Thus some technologies should be involved to safeguard user's privacy.
+\begin{figure}[!t]
+    \centering{\includegraphics[width=2.5in]{case2v3.png}}
+    \caption{Is the speech service honest?}
+    \label{fig:dishonest_provider}
+\end{figure}
+
+With the unprecedented abundance of large datasets and processing acceleration solutions, methods based on deep learning technologies has been enabled for a broad range of applications. Some voice-based services use voiceprint to prevent unwanted activations,such as Siri from Apple Inc. and Xiao Ai from Xiaomi Inc.\cite{a19, a20}. Also, there are many voice enabled IMEs for various kinds of devices, such as iFly Input Method from iFlyTek and GBoard from Google, Inc.\cite{a21, a22}.
+
+However, what is also unprecedented is the ubiquity of such applications and services that raises novel privacy concerns. Provided the involvement of services that heavily use such personal data, recorded voice sequences, one has to take care to collect relevant data for services without inadvertently leaking sensitive information. Thus some technologies should be involved to safeguard user's privacy.
+
+\begin{figure}[!t]
+    \centering{\includegraphics[width=2.5in]{case3v3.png}}
+    \caption{Is the speech service honest?}
+    \label{fig:privacy_enforcement}
+\end{figure}
 
 Consider a scenario where user wants to provide its voice recording, which is private, with an untrusted black-box application. If the original recording is provided untouched, it could result in the recording being used maliciously, as in Figure. \ref{fig:dishonest_provider} User alleviates such problem by using a third-party program or requiring the application to contain a module that remove sensitive information from the data (i. e. desensitize the data) while preserving the textual content and perform its own check to ensure the security.
 
@@ -50,7 +64,7 @@ Researches are conducted regarding the privacy of voice recordings, which primar
 
 In this article we focus on the replacement of voiceprint and consider voice conversion the primary way to implement this type of desensitization. In this area StarGAN-VC is one of the state-of-the-art voice conversion algorithms, which is a deep learning model derived from the well known StarGAN, a many-to-many image style transformer model.
 
-StarGAN-VC on its own could be considered as a valid desensitization algorithm. However, it focuses on the transformation performance and does not perform security measurements or tests in any way, which raises safety concerns. This brings us to the question that motivates us to this paper: \textbf{Is voice conversion without further measures sufficient for desensitization of voice recordings?} In order to answer this question, we show that the desensitization results from a StarGAN-VC implementation can be used to embed with features from corresponding original recording, while ensuring minimum loss of quality and allowing the secret (i. e. original recording) to be extracted from it afterwards. From it, our results sound an alarm against the usage of data sanitization algorithms, and specifically StarGAN-VC, by third-parties. In summary, this paper makes the following contributions:
+StarGAN-VC on its own could be considered as a valid desensitization algorithm. However, it focuses on the transformation performance and does not perform security measurements or tests in any way, which raises safety concerns. This brings us to the question that motivates us to this paper: \textit{Is voice conversion without further measures sufficient for desensitization of voice recordings?} In order to answer this question, we show that the desensitization results from a StarGAN-VC implementation can be used to embed with features from corresponding original recording, while ensuring minimum loss of quality and allowing the secret (i. e. original recording) to be extracted from it afterwards. From it, our results sound an alarm against the usage of data sanitization algorithms, and specifically StarGAN-VC, by third-parties. In summary, this paper makes the following contributions:
 
 \begin{itemize}
 
@@ -64,8 +78,9 @@ StarGAN-VC on its own could be considered as a valid desensitization algorithm. 
 
 The rest of the paper consists related works, an detailed explanation of the proposed methodology, including the discussion of potential use cases and opportunities of future works.
 
-First we describe related work on our topics. We then formulate 
+First we list and discuss related works on relevant topics. We then formulate our attack scenario to demonstrate our question previously mentioned with formal definitions. Next, we describe the concrete implementation we set up for our experiments along with the design and metrics. After that the experiment results are analyzed and discussed in detail before concluding at the end.
 
+\label{seg:related}
 \section{Related work}
 
 \subsection{Adversary against desensitization}
@@ -92,11 +107,14 @@ There also exhibits a number of solutions utilizing neural networks. These metho
 
 However, also as mentioned before, these models are at times likely to be vulnerable to adversaries that utilize the non-significant part of a voice sequence, namely stenography algorithms. Lacking dedicated mitigation of such issues, it's possible to retain the crucial private data in a different form without user's notice.
 
+\label{seg:problem}
 \section{Problem statement}
 
-\subsection{Scenario}
+\subsection{Assumptions}
 
-In our scenario for this workflow, there exists two contradicting parties, users and the attacker.
+The attacker has to use a form of stenography because it not only can not send the raw recordings over the network, but also may not have white-box access to the benign model to train or adjust for its purposes.
+
+\subsection{Scenario}
 
 \subsubsection{Users}
 
@@ -108,29 +126,75 @@ Attacker has access to a desensitization model to attack, either as a white-box 
 
 The only part where the attacker has access to raw sequences is the local program on user's device. Also, attacker has to ensure adequate difference between the raw sequences and the data sent to servers, which implies the recovery of original recordings is done remotely.
 
-\subsubsection{Problem}
+\subsection{Problem}
 
 We consider the primary problem of our adversary generalizes to a specialized form of stenography where the desensitized sequence, as the carrier, carries the original counterpart the message. In this situation, the carrier and message share the same data type, format and textual content.
 
-\subsection{Assumption}
+\subsection{Definitions}
 
-As suggested before, the attacker has to use a form of stenography because it not only can not send the raw recordings over the network, but also may not have white-box access to the benign model to train or adjust for its purposes.
-
-\begin{figure}[htbp]
-    \centerline{\includegraphics[width=8cm]{methodv3.png}}
-    \caption{The complete adversary workflow}
-    \label{method}
-\end{figure}
-
-\subsection{Adversary model}
-
-In order to complete such workflow, as described in Fig. \ref{method}, 3 distinct models are needed. They are explained in detail below, but they can also be summarized as following:
+In order to better formulate our methodology and implementation, we hereby formally define the following terms and their symbolic representations:
 
 \begin{itemize}
-    \item A \textbf{Benign model} to be attacked by. This model generates desensitized voice sequences that users would normally want to get from this black-box.
-    \item A \textbf{Stenography model} to embed features of original voice sequences on the desensitized ones. The output sequences should trick users into believing it's clean desensitized ones.
-    \item A \textbf{Extraction model} to extract the features that \textbf{Stenography model} hid in the voice sequences and recover original ones from them.
+    \item \textbf{Original voice sequence} $x$ is untouched voice recording from the user.
+    \item \textbf{Desensitized voice sequence} $y$ is voice sequence processed by the sanitizer, with sensitive data removed.
+    \item \textbf{Stenography embedded voice sequence} $y^{\prime}$ is $y$ with embedded information from $x$.
+    \item \textbf{Extracted voice sequence} $x^{\prime}$ is the result of extracting $x$ from $y^{\prime}$ with embedded information.
+    \item \textbf{Benign voice desensitization algorithm} $y = F_D(x)$ sanitizes $x$ into $y$.
+    \item \textbf{Stenography embedding algorithm} $y^{\prime} = F_S(y, x)$ embeds features of $x$ into $y$ to get $y^{\prime}$.
+    \item \textbf{Stenography extracting algorithm} $x^{\prime} = F_E(y^{\prime})$ extracts $x^{\prime}$ from $y^{\prime}$ according to embedded information.
 \end{itemize}
+
+\begin{figure}[!t]
+    \centering{\includegraphics[width=2.5in]{methodv3.png}}
+    \caption{The complete adversary workflow}
+    \label{fig:method}
+\end{figure}
+
+\label{seg:method}
+\section{Methodology Ver. II}
+
+\subsection{Desensitization}
+
+The first step of our workflow is to desensitize the original recording. Given $x$, $F_D$ is required to output $y$ that consists of distinct voiceprint than $x$ and identical textual content of it. One objective of StarGAN-VC's generator, the model we employed for $F_D$, is to generate plausible results that is not distinguishable from the real recordings. This ensures the integrity and structural correctness of generated voice sequence. It can be formulated as
+
+\begin{equation}
+    \label{eqn:adv_loss}
+    \mathcal{L}_A = \mathbb{E}_{x}[\log D_S(x)] + \mathbb{E}_{x, c}[\log D_S(1 - G(x, c))]
+\end{equation}
+
+where $G(x, c)$ means the generated voice sequence from the authentic voice sample $x$ and the identity (i.e. label) of target speaker $c$ and $D_S(x)$ denotes the probability distribution provided by the discriminator $D_S$, which predicts the authenticity of its input. The value is minimized to deceive $D_S$. Another important objective is to generate results that closely resemble the target identity. This ensures when the supplied identity is a constant, as in our particular use case, the result will be identity-neutral, which is effectively sanitized from our standpoint. It can be formulated as
+
+\begin{equation}
+    \label{eqn:dom_loss}
+    \mathcal{L}_D = - \mathbb{E}_{x, c}[\log p_C(c \hbar G(x, c))]
+\end{equation}
+
+where $C$ is the domain classifier that predicts the speaker identity of one voice sequence. It takes a small value if $C$ correctly classifies $G(x, c)$, or $y$, into its target speaker identity. The value is thus minimized in order to improve the conversion performance.
+
+As just mentioned, in our case the target identity is a constant $C$. In this way $F_D$ can be described as follows:
+
+\begin{equation}
+    \label{eqn:fd_val}
+    F_D(x) = G(x, c)
+\end{equation}
+
+\subsection{Stenography embedding}
+
+The next step is to embed features of original recording into the desensitized one. Given $y$ from the last step and $x$, $F_S$ is required to generate $y^{\prime}$ where sufficient amount of features of $x$ is embedded while maintaining high similarity with $y$. The primary goal of such stenography embedding model is described as
+
+\begin{equation}
+    \label{eqn:embed_loss}
+    \mathcal{L}_S = E_{x, y}[D(y, F_S(y, x))] + k\mathcal{L}_E
+\end{equation}
+
+where $D$ is general term for a function that calculate the distance between its parameters. The value is smaller when the similarity between the carrier, 
+
+\begin{equation}
+    \label{eqn:extract_loss}
+    \mathcal{L}_E = E_{x, y}[D(x, F_E(F_S(y, x)))]
+\end{equation}
+
+\subsection{Stenography extracting}
 
 \section{Methodology}
 
@@ -248,11 +312,11 @@ As for the ABX test, we derive the following statistics from our records in orde
 
 \subsection{Results}
 
-\begin{figure}[htbp]
-    \centerline{\includegraphics[width=8cm]{samp_wav.jpg}}
+\begin{figure*}[tb]
+    \centering{\includegraphics[width=\textwidth]{samp_wav.jpg}}
     \caption{4 sets of samples}
     \label{samp1}
-\end{figure}
+\end{figure*}
 
 What is depicted in Fig. \ref{samp1} is 4 sets of voice samples in different stages of processing, original(\textbf{ori}), desensitized(\textbf{des}), stenography(\textbf{msg}) and extracted(\textbf{rec}). From which it's noticeable that the overall performance of this adversary is reasonable. Fig. \ref{chart_mean} displays the overall mean scores.
 \subsubsection{Original samples}
@@ -373,11 +437,11 @@ Additionally, we analyzed Fig. \ref{fig:gender} due to a degree of similarity be
             \begin{axis}[
               ybar,
               bar width = 5pt,
-              x axis line style = { opacity = 0 },
               xtick = data,
               symbolic x coords = {Original, Desensitized, Stenography, Extracted},
               legend style={at={(0.5,-0.15)}, anchor=north,legend columns=-1},
               enlarge x limits = 0.1,
+              ymajorgrids = true,
               ymin = 0,
               ymax = 1
             ]
