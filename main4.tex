@@ -48,7 +48,7 @@ Voice data is broadly acquired and utilized by consumer services. In order to pr
     \label{fig:dishonest_provider}
 \end{figure}
 
-With the unprecedented abundance of large datasets and processing acceleration solutions, methods based on deep learning technologies has been enabled for a broad range of applications. Some voice-based services use voiceprint to prevent unwanted activations,such as Siri from Apple Inc. and Xiao Ai from Xiaomi Inc.\cite{a19, a20}. Also, there are many voice enabled IMEs for various kinds of devices, such as iFly Input Method from iFlyTek and GBoard from Google, Inc.\cite{a21, a22}.
+With the unprecedented abundance of large datasets and processing acceleration solutions, methods based on deep learning technologies has been enabled for a broad range of applications. Some voice-based services use voiceprint to prevent unwanted activations,such as Siri from Apple Inc.\footnote{https://www.apple.com/siri/} and Xiao Ai from Xiaomi Inc.\footnote{https://xiaoai.mi.com/}. Also, there are many voice enabled IMEs for various kinds of devices, such as iFly Input Method from iFlyTek\footnote{https://srf.xunfei.cn} and GBoard from Google, Inc.
 
 However, what is also unprecedented is the ubiquity of such applications and services that raises novel privacy concerns. Provided the involvement of services that heavily use such personal data, recorded voice sequences, one has to take care to collect relevant data for services without inadvertently leaking sensitive information. Thus some technologies should be involved to safeguard user's privacy.
 
@@ -168,7 +168,7 @@ where $G(x, c)$ means the generated voice sequence from the authentic voice samp
 
 \begin{equation}
     \label{eqn:dom_loss}
-    \mathcal{L}_D = - \mathbb{E}_{x, c}[\log p_C(c \hbar G(x, c))]
+    \mathcal{L}_D = - \mathbb{E}_{x, c}[\log p_C(c | G(x, c))]
 \end{equation}
 
 where $C$ is the domain classifier that predicts the speaker identity of one voice sequence. It takes a small value if $C$ correctly classifies $G(x, c)$, or $y$, into its target speaker identity. The value is thus minimized in order to improve the conversion performance.
@@ -206,21 +206,11 @@ The right hand side of this equation describes the distance between the original
 
 \subsubsection{Benign desensitization model}
 
-The actual implementation of StarGAN-VC we employed is StarGANVCDialectConversion, in which the generator model resembles the original StarGAN with 5 of down-scaling layers and 4 of upscaling layers along with another de-convolution layer. Each down-scaling layer comprises 2 pairs of convolution layers and batch norm ones, with a trailing sigmoid operation. The same scheme applies to the upscaling ones.
-
-To maximize the performance of our model while keeping the workflow straightforward, we chose an well known voice transformation oriented dataset, VCC 2016. In this dataset there are 10 speakers including 5 male and 5 female ones. Each speaker has the same number of voice samples (162 for training and 54 for evaluation) where the corresponding textual content of each one across every speaker remains the same. Each voice sample are down-sampled to 16 KHz from the DAPS dataset. However, their length and clarity is not guaranteed to be the same. In order to reduce complexity, only four speakers, SF1-2, TM1-2 are choosed for training.
-
-Our model is trained according the recommendations of implementation authors, where the total steps trained is 200000 (approx. 60 epochs). At this point, the model shows a degree of generalization ability. It's notable that the generation quality of this model may not be adequate in practice, however for our experiment purpose we consider it usable.
+As mentioned previously, we use trained StarGAN-VC's Generator $G$ as $F_D$. The actual implementation of $G$ we employed for experiments closely resembles the official implementation, where $x$ is first processed by a series of convolution layers, as a decoder, in order to extract its textual speech content. After that, a layer of repeated $c$, which is the target speaker identity, is stacked channel-wise against the intermediaries of every further layers, as the decoding part. Since instances of $x$ are variable length by nature and $G$ accepts fixed-sized input, they are split into segments (and zero padded) as a step of preprocessing.
 
 \subsubsection{Stenography models}
 
-Here we employed the Hide and Speak algorithm where novel approaches are created to improve the performance of reconstruction of time-domain message signal from carrier embedded with it. This implementation exhibits transformer structure for both the embedding process and the extraction process, thus avoided using sub-optimal algorithms for signal reconstruction such as Griffin Lim.
-
-In order to train and optimize this model (which is specifically designed for voice processing) for voice sequences instead of generic audio signal, we choose to train with voice sequences, as specified by the official implementation. The employed dataset is TIMIT, which contains 10 sentences spoken by each of 630 speakers from 8 major dialect regions in the U.S.
-
-Same as the benign model, this model is trained with the default preferences. Trained model shows versatile results where modifications are indistinguishable by human ears and the extracted sequences are indistinguishable from the original ones also by human ears.
-
-The extraction model accepts the sequences embedded with features of their original counterparts. Partially as the reverse process of the stenography model, the goal of such model is to improve the quality of extracted message (in this case the original recording). The optimization goal of this model is described in equation \ref{eqn:st_q_loss} and this model is (by design) trained in conjunction with the stenography one. The results are mentioned before as adequately versatile.
+Also mentioned before, $F_S$ and $F_E$ are provided by Hide and Speak's stenography embedding and extracting models. Here we used the official implementation, where for $F_S$ a joint representation of secret message $x$ and stenographic carrier $y$ is created with additional latent information from an carrier encoder network. Then, this representation acts as the input of carrier decoding network, which outputs the magnitude representation. This is then converted into time-domain signal (i.e. $y^{\prime}$). For $F_E$, $y^{\prime}$ is first converted back into magnitude representation before being processed by message decoder network, into extracted original recording $x^{\prime}$.
 
 \label{seg:expriment}
 \section{Experiment}
@@ -231,26 +221,19 @@ Recall our workflow, where user produces voice recordings for certain services, 
 
 \subsubsection{Dataset}
 
+\textit{VCC 2016} dataset, where VCC means Voice Conversion Challenge, which is what it was designed for, is employed for training of $F_D$ and generation of data for our evaluation. In this dataset there are 10 speakers including 5 male and 5 female ones. Each speaker has the same number of voice samples (162 for training and 54 for evaluation) where the corresponding textual content of each one across every speaker remains the same. Each voice sample are down-sampled to 16 KHz from the DAPS (Device and Produced Speech) dataset. However, their length and clarity is not guaranteed to be the same. In order to keep the experiment straightforward, only four speakers, SF1-2, TM1-2 are chosen for training.
+
+\textit{TIMIT} dataset, The DARPA(Defense Advanced Research Projects Agency) TI(Texas Instruments)MIT(Massachusetts Institute of Technology) Acoustic-Phonetic Continuous Speech Corpus, which consists of 6300 recordings of spoken sentences by 8 different dialect regions of the U.S, is used for the training of $F_S$ and $F_E$. The diversity and quantity of this dataset helps with the versatility of Hide and Speak model in terms of voice processing.
+
 \subsubsection{Preparation}
 
-As mentioned before, our workflow includes three distinct models, the benign model, stenography model and the extraction one. As part of the experiment preparation, we trained these models according the methodologies described in previous sections, where the benign model is trained for 200000 steps with VCC 2016 dataset and the stenography model and extraction model are trained with TIMIT dataset.
+As implied previously, our workflow requires three distinct models, benign desensitization model for $F_D$, stenography embedding model for $F_S$ and the extraction one for $F_E$. As part of the experiment preparation, we trained these models according the methodologies described in previous sections, where the benign model is trained for 200000 steps with VCC 2016 dataset and the stenography model and extraction model are trained with TIMIT dataset.
 
-Our workflow accepts user's raw voice sequences as input, as described before. In our experiment, we substitute this with both training and evaluation dataset of VCC 2016 dataset, which closely resembles this use case. In this way, we got 648 samples in total from 4 speakers where each has 162 samples.
-
-It's worthwhile to mention that we consider the usage of training data in our experiment where the same data is used for training of the benign model legit because of the fact that the generalization ability of our voice transformation model is not the most important concern. Even the benign model naturally performs better on its training set, our experiment focus on the effectiveness of the overall workflow instead of individual performance of its parts.
+Our workflow accepts user's raw voice sequences, $x$, as input, as described before. In our experiment, we substitute this with both training and evaluation dataset of VCC 2016 dataset, which closely resembles this use case. In this way, we got 648 samples in total from 4 speakers where each has 162 samples. It's worthwhile to mention that we consider the usage of training data in our experiment where the same data is used for training of the benign model legit because of the fact that the generalization ability of our voice transformation model is not the most important concern. Even the benign model naturally performs better on its training set, our experiment focus on the effectiveness of the overall workflow instead of individual performance of its parts.
 
 \subsubsection{Generation}
 
-It's easy to notice that the complete workflow produces 3 distinct products. That is, along with the original voice sample our experiment data can be grouped into tuples of 4 corresponding samples:
-
-\begin{itemize}
-    \item \textbf{Original} sample, abbreviated as \textbf{ORI}.
-    \item \textbf{Desensitized} sample, abbreviated as \textbf{DES}, generated by the benign model with the original one.
-    \item \textbf{Stenography embedded} sample, abbreviated as \textbf{MSG}, generated by the stenography model with the desensitized one as the carrier and original one as the message, and is intended to be similar to the desensitized one.
-    \item \textbf{Extracted original} sample, abbreviated as \textbf{REC}, extracted by the extraction model from the stenography embedded sample, and is intended to resemble the original one.
-\end{itemize}
-
-Since each sample can be used to generate 3 sets of voice sequences targeting different speakers, we get 1944 sets in total.
+It's easy to notice that the complete workflow produces 3 distinct products, along with the original recording forms a set of 4 voice sequences for each sample, $x$, $y$, $y^{\prime}$ and $x^{\prime}$. All of these voice sequences are included in our experiments. Since each sample can be used to generate 3 sets of voice sequences targeting different speakers, we get 1944 sets in total.
 
 \subsection{Design}
 
@@ -293,7 +276,7 @@ As for the ABX test, we derive the following statistics from our records in orde
 
 \begin{figure*}[tb]
     \centering{\includegraphics[width=\textwidth]{samp_wav.jpg}}
-    \caption{4 sets of samples}
+    \caption{4 samples. Each column from top to bottom contains corresponding waveform of $x$ as \textit{ori}, $y$ as \textit{des}, $y^{\prime}$ as \textit{msg} and $x^{\prime}$ as \textit{rec}. It can be seen that $x^{\prime}$ is sufficiently similar with $x$, which can be consider as an indication of the success of adversary.}
     \label{samp1}
 \end{figure*}
 
@@ -504,7 +487,6 @@ According to our experiments, it is safe to consider conventional acoustical-bas
 
 \begin{thebibliography}{00}
     \bibitem{a1} N. Subramanian, O. Elharrouss, S. Al-Maadeed and A. Bouridane, "Image Steganography: A Review of the Recent Advances," in IEEE Access, vol. 9, pp. 23409-23423, 2021, doi: 10.1109/ACCESS.2021.3053998.
-    \bibitem{a2} https://github.com/Didnelpsun/StarGanVCDialectConversion
     \bibitem{a3} Y. Li, X. Qiu, P. Cao, Y. Zhang, and B. Bao, “Non-parallel Voice Conversion Based on Perceptual Star Generative Adversarial Network,” Circuits Syst Signal Process, vol. 41, no. 8, pp. 4632–4648, Aug. 2022, doi: 10.1007/s00034-022-01998-5.
     \bibitem{a4} F. Kreuk, Y. Adi, B. Raj, R. Singh, and J. Keshet, “Hide and Speak: Towards Deep Neural Networks for Speech Steganography.” arXiv, Jul. 27, 2020. doi: 10.48550/arXiv.1902.03083.
     \bibitem{a5} N. Takahashi, M. K. Singh, and Y. Mitsufuji, “Source Mixing and Separation Robust Audio Steganography.” arXiv, Feb. 17, 2022. doi: 10.48550/arXiv.2110.05054.
@@ -516,15 +498,10 @@ According to our experiments, it is safe to consider conventional acoustical-bas
     \bibitem{a11} J. Qian, F. Han, J. Hou, C. Zhang, Y. Wang and X. -Y. Li, "Towards Privacy-Preserving Speech Data Publishing," IEEE INFOCOM 2018 - IEEE Conference on Computer Communications, Honolulu, HI, USA, 2018, pp. 1079-1087, doi: 10.1109/INFOCOM.2018.8486250.
     \bibitem{a12} Nandwana, Mahesh Kumar, Julien van Hout, Mitchell McLaren, Allen R. Stauffer, Colleen Richey, Aaron D. Lawson and Martin Graciarena. “Robust Speaker Recognition from Distant Speech under Real Reverberant Environments Using Speaker Embeddings.” Interspeech (2018).
     \bibitem{a13} https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html
-    \bibitem{a14} Vidizmo - Automatic audio redaction software. https://www.vidizmo/com/vidizmo-artificial-intelligence-solutions/redaction/
     \bibitem{a15} Audacity - Open source audio software. https://www.audacityteam.org/
     \bibitem{a16} T. Toda, L.-H. Chen, D. Saito, F. Villavicencio, M. Wester, Z. Wu, J. Yamagishi, "The Voice Conversion Challenge 2016," Proc. INTERSPEECH, pp. 1632-1636, 2016.
     \bibitem{a17} M. Wester, Z. Wu, J. Yamagishi, "Analysis of the Voice Conversion Challenge 2016 Evaluation Results," Proc. INTERSPEECH, pp. 1637-1641, 2016.
     \bibitem{a18} M. Wester, Z. Wu, J. Yamagishi, "Multidimensional scaling of systems in the Voice Conversion Challenge 2016," Proc. SSW9, pp. 40-45, 2016.
-    \bibitem{a19} Siri - Voice assistant software. https://www.apple.com/siri/
-    \bibitem{a20} Xiao Ai - Voice assistant software. https://xiaoai.mi.com/
-    \bibitem{a21} iFly Input Method - Chinese/English input method software. https://srf.xunfei.cn
-    \bibitem{a22} GBoard - Multilingual input method software. https://play.google.com/store/apps/details?id=com.google.android.inputmethod
     \bibitem{pprl-vgan} J. Chen, J. Konrad, and P. Ishwar, “VGAN-Based Image Representation Learning for Privacy-Preserving Facial Expression Recognition,” in 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Salt Lake City, UT, USA, Jun. 2018, pp. 1651–165109. doi: 10.1109/CVPRW.2018.00207.
     \bibitem{subvert} K. Liu, B. Tan, and S. Garg, “Subverting Privacy-Preserving GANs: Hiding Secrets in Sanitized Images,” AAAI, vol. 35, no. 17, pp. 14849–14856, May 2021, doi: 10.1609/aaai.v35i17.17743.
 \end{thebibliography}
