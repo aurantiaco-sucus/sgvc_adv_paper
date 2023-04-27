@@ -43,6 +43,14 @@ Voice data is broadly acquired and utilized by consumer services. In order to pr
 \section{Introduction}
 \label{seg:intro}
 
+With the unprecedented abundance of large datasets and processing acceleration solutions, methods based on deep learning technologies has been enabled for a broad range of applications, such as robust voice recognition\cite{spkr_recg}. Some voice-based services use voiceprint to prevent unwanted activations, such as Siri from Apple Inc.\footnote{https://www.apple.com/siri/} and Xiao Ai from Xiaomi Inc.\footnote{https://xiaoai.mi.com/}. Also, there are many voice enabled IMEs for various kinds of devices, such as iFly Input Method from iFlyTek\footnote{https://srf.xunfei.cn} and GBoard from Google, Inc.
+
+However, what is also unprecedented is the ubiquity of such applications and services that raises novel privacy concerns. Provided the involvement of services that heavily use such personal data, recorded voice sequences, one has to take care to collect relevant data for services without inadvertently leaking sensitive information. Thus some technologies should be involved to safeguard user's privacy.
+
+Consider a scenario where user wants to provide its voice recording, which is private, with an untrusted black-box application. If the original recording is provided untouched, it could result in the recording being used maliciously, as in Fig. \ref{fig:dishonest_provider} User alleviates such problem by using a third-party program or requiring the application to contain a module that remove sensitive information from the data (i. e. desensitize the data) while preserving the textual content and perform its own check to ensure the security, as described in Fig. \ref{fig:privacy_enforcement}
+
+Researches are conducted regarding the privacy of voice recordings, which primarily focuses on two distinct areas: Removal of segments with sensitive textual content from the recording and the conversion of the voice sequence that replaces voiceprint, the vocal features of one speaker with another distinct set.
+
 \begin{figure}[!t]
     \centering{\includegraphics[width=2.5in]{case2v3.png}}
     \caption{Consequences of providing raw voice recordings with dishonest online speech service providers, from which it can be seen that this potentially leads to various types of malicious activities.}
@@ -54,14 +62,6 @@ Voice data is broadly acquired and utilized by consumer services. In order to pr
     \caption{The enforcement of voice deserialization by user. A specific \textit{Voice anonymization tool} is employed by the user, or by the service provider to meet user's security requirement.}
     \label{fig:privacy_enforcement}
 \end{figure}
-
-With the unprecedented abundance of large datasets and processing acceleration solutions, methods based on deep learning technologies has been enabled for a broad range of applications. Some voice-based services use voiceprint to prevent unwanted activations,such as Siri from Apple Inc.\footnote{https://www.apple.com/siri/} and Xiao Ai from Xiaomi Inc.\footnote{https://xiaoai.mi.com/}. Also, there are many voice enabled IMEs for various kinds of devices, such as iFly Input Method from iFlyTek\footnote{https://srf.xunfei.cn} and GBoard from Google, Inc.
-
-However, what is also unprecedented is the ubiquity of such applications and services that raises novel privacy concerns. Provided the involvement of services that heavily use such personal data, recorded voice sequences, one has to take care to collect relevant data for services without inadvertently leaking sensitive information. Thus some technologies should be involved to safeguard user's privacy.
-
-Consider a scenario where user wants to provide its voice recording, which is private, with an untrusted black-box application. If the original recording is provided untouched, it could result in the recording being used maliciously, as in Fig. \ref{fig:dishonest_provider} User alleviates such problem by using a third-party program or requiring the application to contain a module that remove sensitive information from the data (i. e. desensitize the data) while preserving the textual content and perform its own check to ensure the security, as described in Fig. \ref{fig:privacy_enforcement}
-
-Researches are conducted regarding the privacy of voice recordings, which primarily focuses on two distinct areas: Removal of segments with sensitive textual content from the recording and the conversion of the voice sequence that replaces voiceprint, the vocal features of one speaker with another distinct set.
 
 In this article we focus on the replacement of voiceprint and consider voice conversion the primary way to implement this type of desensitization. In this area StarGAN-VC is one of the state-of-the-art voice conversion algorithms, which is a deep learning model derived from the well known StarGAN, a many-to-many image style transformer model.
 
@@ -86,15 +86,15 @@ First we list and discuss related works on relevant topics in Section \ref{seg:r
 
 \subsection{Adversary against desensitization}
 
-There are researches on attacking privacy-preserving data transformation models. Some employ similar techniques that attempt to embed certain amount of data in sanitized data with modification to original deep-learning models and recover the original data after the exposure of sanitized data in public by victims. 
+There are researches on attacking privacy-preserving data transformation models. Some employ similar techniques that attempt to embed certain amount of data in sanitized data with modification to original deep-learning models and recover the original data after the exposure of sanitized data in public by victims.
 
-An notable instance among them works with images, targeting a privacy-preserving facial expression recognition algorithm, PPRL-VGAN. It sets up the attack with weak assumptions of user, who have white-box access to the attacked model. In order to achieve the adversary, its adversarial parts are embedded in the original model as additional layers or modification of existing layers, thus avoiding user's discovery.\cite{pprl-vgan,subvert}
+An notable instance among them works with images, targeting a privacy-preserving facial expression recognition algorithm, PPRL-VGAN. Like other image stenography researches\cite{imgsteno}, it sets up the attack with weak assumptions of user, who have white-box access to the attacked model. In order to achieve the adversary, its adversarial parts are embedded in the original model as additional layers or modification of existing layers, thus avoiding user's discovery.\cite{pprl-vgan,subvert}
 
 However, there are much fewer works that propose adversaries against voice privacy preservation algorithms than facial image ones, even if the former is much more commonly adopted and deployed in production environment. The reason could involve the common misconception of voice-related technologies being mature or, even, complete.
 
 \subsection{Voiceprint obfuscation}
 
-Numerous research projects have been conducted for the preservation of voice privacy via the replacement of voiceprint. We consider these projects to fall in two categories: Traditional frequency-domain or voice tract analysis solutions and newer CNN-based voice transformation frameworks.
+Privacy implications has been researched for voice data\cite{priv_spk_char, priv_impl_vaa}. Numerous research projects have been conducted for the preservation of voice privacy via the replacement of voiceprint. We consider these projects to fall in two categories: Traditional frequency-domain or voice tract analysis solutions and newer CNN-based voice transformation frameworks.
 
 \subsubsection{Bilinear transform based methods}
 
@@ -190,7 +190,7 @@ The next step is to embed features of original recording into the desensitized o
     \mathcal{L}_S = \mathbb{E}_{x, y}[D(y, F_S(y, x))] + k\mathcal{L}_E
 \end{equation}
 
-where $D$ is general term for a function that calculate the distance between its parameters and $\mathcal{L}_E$ is the goal for stenography extracting mentioned below, where $k$ is a super-parameter that determines the balance between minimizing the modification made to the audio signal $(y^{\prime} - y)$ and the quality of extracted data $x^{\prime}$. The value is small when the similarity between the carrier, in which $x$ is written, and the stenography embedded $y^{\prime}$ (i.e. $F_S(y, x)$) is high. Thus, Hide and Speak, the deep-learning based algorithm we employed for $F_S$ in general optimizes for the minimum for it.
+where $D$ is general term for a function that calculate the distance between its parameters and $\mathcal{L}_E$ is the goal for stenography extracting mentioned below, where $k$ is a super-parameter that determines the balance between minimizing the modification made to the audio signal $(y^{\prime} - y)$ and the quality of extracted data $x^{\prime}$. The value is small when the similarity between the carrier, in which $x$ is written, and the stenography embedded $y^{\prime}$ (i.e. $F_S(y, x)$) is high. Thus, Hide and Speak\cite{has}, the deep-learning based algorithm we employed for $F_S$ in general optimizes for the minimum for it.
 
 \subsubsection{Stenography extracting}
 
@@ -234,7 +234,7 @@ Recall our workflow, where user produces voice recordings for certain services, 
 
 \subsubsection{Dataset}
 
-\textit{VCC 2016} dataset, where VCC means Voice Conversion Challenge, which is what it was designed for, is employed for training of $F_D$ and generation of data for our evaluation. In this dataset there are 10 speakers including 5 male and 5 female ones. Each speaker has the same number of voice samples (162 for training and 54 for evaluation) where the corresponding textual content of each one across every speaker remains the same. Each voice sample are down-sampled to 16 KHz from the DAPS (Device and Produced Speech) dataset. However, their length and clarity is not guaranteed to be the same. In order to keep the experiment straightforward, only four speakers, SF1-2, TM1-2 are chosen for training.
+\textit{VCC 2016} dataset, where VCC means Voice Conversion Challenge\cite{vcc2016, vcc2016eval, vcc2016mss}, which is what it was designed for, is employed for training of $F_D$ and generation of data for our evaluation. In this dataset there are 10 speakers including 5 male and 5 female ones. Each speaker has the same number of voice samples (162 for training and 54 for evaluation) where the corresponding textual content of each one across every speaker remains the same. Each voice sample are down-sampled to 16 KHz from the DAPS (Device and Produced Speech) dataset. However, their length and clarity is not guaranteed to be the same. In order to keep the experiment straightforward, only four speakers, SF1-2, TM1-2 are chosen for training.
 
 \textit{TIMIT} dataset, The DARPA(Defense Advanced Research Projects Agency) TI(Texas Instruments)MIT(Massachusetts Institute of Technology) Acoustic-Phonetic Continuous Speech Corpus, which consists of 6300 recordings of spoken sentences by 8 different dialect regions of the U.S, is used for the training of $F_S$ and $F_E$. The diversity and quantity of this dataset helps with the versatility of Hide and Speak model in terms of voice processing.
 
@@ -505,22 +505,20 @@ According to our experiments, it is safe to consider conventional acoustical-bas
 Funded by National Natural Science Foundation of China (No.62102107)
 
 \begin{thebibliography}{00}
-    \bibitem{a1} N. Subramanian, O. Elharrouss, S. Al-Maadeed and A. Bouridane, "Image Steganography: A Review of the Recent Advances," in IEEE Access, vol. 9, pp. 23409-23423, 2021, doi: 10.1109/ACCESS.2021.3053998.
+    \bibitem{imgsteno} N. Subramanian, O. Elharrouss, S. Al-Maadeed and A. Bouridane, "Image Steganography: A Review of the Recent Advances," in IEEE Access, vol. 9, pp. 23409-23423, 2021, doi: 10.1109/ACCESS.2021.3053998.
     \bibitem{a3} Y. Li, X. Qiu, P. Cao, Y. Zhang, and B. Bao, “Non-parallel Voice Conversion Based on Perceptual Star Generative Adversarial Network,” Circuits Syst Signal Process, vol. 41, no. 8, pp. 4632–4648, Aug. 2022, doi: 10.1007/s00034-022-01998-5.
-    \bibitem{a4} F. Kreuk, Y. Adi, B. Raj, R. Singh, and J. Keshet, “Hide and Speak: Towards Deep Neural Networks for Speech Steganography.” arXiv, Jul. 27, 2020. doi: 10.48550/arXiv.1902.03083.
-    \bibitem{a5} N. Takahashi, M. K. Singh, and Y. Mitsufuji, “Source Mixing and Separation Robust Audio Steganography.” arXiv, Feb. 17, 2022. doi: 10.48550/arXiv.2110.05054.
-    \bibitem{a6} Andreas Nautsch, Abelino Jiménez, Amos Treiber, Jascha Kolberg, Catherine Jasserand, Els Kindt, Héctor Delgado, Massimiliano Todisco, Mohamed Amine Hmani, Aymen Mtibaa, Mohammed Ahmed Abdelraheem, Alberto Abad, Francisco Teixeira, Driss Matrouf, Marta Gomez-Barrero, Dijana Petrovska-Delacrétaz, Gérard Chollet, Nicholas Evans, Thomas Schneider, Jean-François Bonastre, Bhiksha Raj, Isabel Trancoso, and Christoph Busch. 2019. Preserving privacy in speaker and speech characterisation. Comput. Speech Lang. 58, C (Nov 2019), 441–480. https://doi.org/10.1016/j.csl.2019.06.001
-    \bibitem{a7} Kröger, J.L., Lutz, O.HM., Raschke, P. (2020). Privacy Implications of Voice and Speech Analysis – Information Disclosure by Inference. In: Friedewald, M., Önen, M., Lievens, E., Krenn, S., Fricker, S. (eds) Privacy and Identity Management. Data for Better Living: AI and Privacy. Privacy and Identity 2019. IFIP Advances in Information and Communication Technology(), vol 576. Springer, Cham.
+    \bibitem{has} F. Kreuk, Y. Adi, B. Raj, R. Singh, and J. Keshet, “Hide and Speak: Towards Deep Neural Networks for Speech Steganography.” arXiv, Jul. 27, 2020. doi: 10.48550/arXiv.1902.03083.
+    \bibitem{audiosteno} N. Takahashi, M. K. Singh, and Y. Mitsufuji, “Source Mixing and Separation Robust Audio Steganography.” arXiv, Feb. 17, 2022. doi: 10.48550/arXiv.2110.05054.
+    \bibitem{priv_spk_char} Andreas Nautsch, Abelino Jiménez, Amos Treiber, Jascha Kolberg, Catherine Jasserand, Els Kindt, Héctor Delgado, Massimiliano Todisco, Mohamed Amine Hmani, Aymen Mtibaa, Mohammed Ahmed Abdelraheem, Alberto Abad, Francisco Teixeira, Driss Matrouf, Marta Gomez-Barrero, Dijana Petrovska-Delacrétaz, Gérard Chollet, Nicholas Evans, Thomas Schneider, Jean-François Bonastre, Bhiksha Raj, Isabel Trancoso, and Christoph Busch. 2019. Preserving privacy in speaker and speech characterisation. Comput. Speech Lang. 58, C (Nov 2019), 441–480. https://doi.org/10.1016/j.csl.2019.06.001
+    \bibitem{priv_impl_vaa} Kröger, J.L., Lutz, O.HM., Raschke, P. (2020). Privacy Implications of Voice and Speech Analysis – Information Disclosure by Inference. In: Friedewald, M., Önen, M., Lievens, E., Krenn, S., Fricker, S. (eds) Privacy and Identity Management. Data for Better Living: AI and Privacy. Privacy and Identity 2019. IFIP Advances in Information and Communication Technology(), vol 576. Springer, Cham.
     \bibitem{a8} Jaemin Lim, Kiyeon Kim, Hyunwoo Yu, and Suk-Bok Lee. 2022. Overo: Sharing Private Audio Recordings. In Proceedings of the 2022 ACM SIGSAC Conference on Computer and Communications Security (CCS '22). Association for Computing Machinery, New York, NY, USA, 1933–1946. https://doi.org/10.1145/3548606.3560572
     \bibitem{a9} J. Qian, H. Du, J. Hou, L. Chen, T. Jung and X. -Y. Li, "Speech Sanitizer: Speech Content Desensitization and Voice Anonymization," in IEEE Transactions on Dependable and Secure Computing, vol. 18, no. 6, pp. 2631-2642, 1 Nov.-Dec. 2021, doi: 10.1109/TDSC.2019.2960239.
     \bibitem{a10} Jianwei Qian, Haohua Du, Jiahui Hou, Linlin Chen, Taeho Jung, and Xiang-Yang Li. 2018. Hidebehind: Enjoy Voice Input with Voiceprint Unclonability and Anonymity. In Proceedings of the 16th ACM Conference on Embedded Networked Sensor Systems (SenSys '18). Association for Computing Machinery, New York, NY, USA, 82–94. https://doi.org/10.1145/3274783.3274855
     \bibitem{a11} J. Qian, F. Han, J. Hou, C. Zhang, Y. Wang and X. -Y. Li, "Towards Privacy-Preserving Speech Data Publishing," IEEE INFOCOM 2018 - IEEE Conference on Computer Communications, Honolulu, HI, USA, 2018, pp. 1079-1087, doi: 10.1109/INFOCOM.2018.8486250.
-    \bibitem{a12} Nandwana, Mahesh Kumar, Julien van Hout, Mitchell McLaren, Allen R. Stauffer, Colleen Richey, Aaron D. Lawson and Martin Graciarena. “Robust Speaker Recognition from Distant Speech under Real Reverberant Environments Using Speaker Embeddings.” Interspeech (2018).
-    \bibitem{a13} https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html
-    \bibitem{a15} Audacity - Open source audio software. https://www.audacityteam.org/
-    \bibitem{a16} T. Toda, L.-H. Chen, D. Saito, F. Villavicencio, M. Wester, Z. Wu, J. Yamagishi, "The Voice Conversion Challenge 2016," Proc. INTERSPEECH, pp. 1632-1636, 2016.
-    \bibitem{a17} M. Wester, Z. Wu, J. Yamagishi, "Analysis of the Voice Conversion Challenge 2016 Evaluation Results," Proc. INTERSPEECH, pp. 1637-1641, 2016.
-    \bibitem{a18} M. Wester, Z. Wu, J. Yamagishi, "Multidimensional scaling of systems in the Voice Conversion Challenge 2016," Proc. SSW9, pp. 40-45, 2016.
+    \bibitem{spkr_recg} Nandwana, Mahesh Kumar, Julien van Hout, Mitchell McLaren, Allen R. Stauffer, Colleen Richey, Aaron D. Lawson and Martin Graciarena. “Robust Speaker Recognition from Distant Speech under Real Reverberant Environments Using Speaker Embeddings.” Interspeech (2018).
+    \bibitem{vcc2016} T. Toda, L.-H. Chen, D. Saito, F. Villavicencio, M. Wester, Z. Wu, J. Yamagishi, "The Voice Conversion Challenge 2016," Proc. INTERSPEECH, pp. 1632-1636, 2016.
+    \bibitem{vcc2016eval} M. Wester, Z. Wu, J. Yamagishi, "Analysis of the Voice Conversion Challenge 2016 Evaluation Results," Proc. INTERSPEECH, pp. 1637-1641, 2016.
+    \bibitem{vcc2016mss} M. Wester, Z. Wu, J. Yamagishi, "Multidimensional scaling of systems in the Voice Conversion Challenge 2016," Proc. SSW9, pp. 40-45, 2016.
     \bibitem{pprl-vgan} J. Chen, J. Konrad, and P. Ishwar, “VGAN-Based Image Representation Learning for Privacy-Preserving Facial Expression Recognition,” in 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Salt Lake City, UT, USA, Jun. 2018, pp. 1651–165109. doi: 10.1109/CVPRW.2018.00207.
     \bibitem{subvert} K. Liu, B. Tan, and S. Garg, “Subverting Privacy-Preserving GANs: Hiding Secrets in Sanitized Images,” AAAI, vol. 35, no. 17, pp. 14849–14856, May 2021, doi: 10.1609/aaai.v35i17.17743.
 \end{thebibliography}
